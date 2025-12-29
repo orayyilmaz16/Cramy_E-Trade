@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Cramy.Application/Cramy.Application.csproj" />
+  <Project Path="Cramy.Domain/Cramy.Domain.csproj" />
+  <Project Path="Cramy.Infrastructure/Cramy.Infrastructure.csproj" />
+  <Project Path="Cramy.Persistence/Cramy.Persistence.csproj" />
+  <Project Path="Cramy.Web/Cramy.Web.csproj" />
+</Solution>

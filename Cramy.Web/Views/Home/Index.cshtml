@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="hero-section text-center my-5 fade-in">
+    <h1 class="display-4 fw-bold">Cramy E-Ticaret Sitesine Hoşgeldiniz</h1>
+    <p class="lead">Modern, hızlı ve güvenli alışveriş deneyimi.</p>
+    <a class="btn cta-btn btn-lg mt-3" asp-controller="Products" asp-action="Index">
+        <i class="bi bi-box-seam"></i> Ürünleri Gör
+    </a>
+</div>
+
+<!-- Grid Card Layout -->
+<div class="grid-3d mt-5">
+    <div class="card glass-card">
+        <img src="~/images/electronics.jpg" class="card-img-top" alt="Elektronik">
+        <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-laptop"></i> Elektronik</h5>
+            <p class="card-text">Son teknoloji laptop, telefon ve aksesuarlar.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
+        </div>
+    </div>
+
+    <div class="card glass-card">
+        <img src="~/images/fashion.jpg" class="card-img-top" alt="Moda">
+        <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-bag"></i> Moda</h5>
+            <p class="card-text">Trend kıyafetler ve şık kombinler.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
+        </div>
+    </div>
+
+    <div class="card glass-card">
+        <img src="~/images/home.jpg" class="card-img-top" alt="Ev & Yaşam">
+        <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-house-door"></i> Ev & Yaşam</h5>
+            <p class="card-text">Dekorasyon, mobilya ve yaşam ürünleri.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
+        </div>
+    </div>
+
+    <div class="card glass-card">
+        <img src="~/images/sports.jpg" class="card-img-top" alt="Spor">
+        <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-bicycle"></i> Spor</h5>
+            <p class="card-text">Spor ekipmanları, fitness ve outdoor ürünleri.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
+        </div>
+    </div>
+
+    
+</div>

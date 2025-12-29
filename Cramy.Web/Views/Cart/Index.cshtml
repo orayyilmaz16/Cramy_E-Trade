@@ -1,0 +1,45 @@
+﻿@using Cramy.Application.DTOs
+@model CardDto
+@{
+    ViewData["Title"] = "Sepetim";
+}
+<h2 class="mb-4">Sepetim</h2>
+
+@if (Model.Items.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ürün</th>
+                <th>Adet</th>
+                <th>Birim Fiyat</th>
+                <th>Toplam</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice.ToString("C")</td>
+                    <td>@(item.Quantity* item.UnitPrice).ToString("C")</td>
+                    <td>
+                        <form asp-action="Kaldir" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="SatinAl" method="post">
+        <button type="submit" class="btn btn-primary btn-lg">Satın Al</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-info">Sepetiniz boş.</div>
+}

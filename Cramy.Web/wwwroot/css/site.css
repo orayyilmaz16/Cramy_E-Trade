@@ -1,0 +1,267 @@
+/* Temel font scaling ve modern font */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    color: #212529;
+    line-height: 1.6;
+    animation: fadeInBody 1.2s ease forwards;
+}
+
+@keyframes fadeInBody {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Form placeholder UX */
+.form-floating > .form-control::placeholder,
+.form-floating > .form-control-plaintext::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+    transition: all 0.3s ease;
+}
+
+.form-floating > .form-control:focus::placeholder,
+.form-floating > .form-control-plaintext:focus::placeholder {
+    text-align: start;
+    opacity: 0.6;
+}
+
+/* Button focus/hover/click effects */
+.btn {
+    transition: all 0.35s ease-in-out;
+    transform: perspective(600px) translateZ(0);
+}
+
+    .btn:hover {
+        transform: perspective(600px) translateZ(12px) scale(1.06);
+        box-shadow: 0 8px 20px rgba(37, 140, 251, 0.4);
+    }
+
+    .btn:active {
+        transform: perspective(600px) translateZ(5px) scale(0.97);
+        box-shadow: inset 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+        .btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+        .form-control:focus, .form-check-input:focus {
+            box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+        }
+
+/* 3D Grid Layout */
+.grid-3d {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    perspective: 1000px;
+}
+
+    .grid-3d .card {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        transition: transform 0.6s cubic-bezier(.25,.8,.25,1), box-shadow 0.3s ease;
+        transform-style: preserve-3d;
+        overflow: hidden;
+    }
+
+        .grid-3d .card:hover {
+            transform: rotateY(8deg) translateY(-6px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+        }
+
+        .grid-3d .card img {
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            transition: transform 0.5s ease;
+        }
+
+        .grid-3d .card:hover img {
+            transform: scale(1.05);
+        }
+
+/* CTA button styling */
+.cta-btn {
+    background: linear-gradient(90deg, #258cfb, #6610f2);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.6rem;
+    transition: background 0.4s ease, transform 0.3s ease;
+}
+
+    .cta-btn:hover {
+        background: linear-gradient(90deg, #6610f2, #258cfb);
+        transform: scale(1.1);
+        box-shadow: 0 12px 24px rgba(102,16,242,0.4);
+    }
+
+    .cta-btn:active {
+        transform: scale(0.95);
+        box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+/* Animation utilities */
+.fade-in {
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.9s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Glassmorphism footer */
+.glass-footer {
+    background: rgba(33, 37, 41, 0.85);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.2);
+    animation: fadeInFooter 1.5s ease forwards;
+}
+
+@keyframes fadeInFooter {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navbar hover animation */
+.nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+    .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #0d6efd;
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+        width: 100%;
+    }
+
+
+body {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    font-family: 'Poppins', sans-serif;
+    color: #212529;
+    line-height: 1.6;
+}
+
+/* Hero Section */
+.hero-section {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    animation: fadeInHero 1.2s ease forwards;
+}
+
+@keyframes fadeInHero {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grid Layout */
+.grid-3d {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    perspective: 1000px;
+}
+
+/* Card Styling */
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+    .glass-card:hover {
+        transform: translateY(-8px) rotateY(6deg);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+
+    .glass-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+/* CTA Button */
+.cta-btn {
+    background: linear-gradient(90deg, #0d6efd, #6610f2);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.8rem 1.6rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .cta-btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 10px 20px rgba(102,16,242,0.4);
+    }

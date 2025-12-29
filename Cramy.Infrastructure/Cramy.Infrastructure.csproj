@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cramy.Application\Cramy.Application.csproj" />
+    <ProjectReference Include="..\Cramy.Persistence\Cramy.Persistence.csproj" />
+    <ProjectReference Include="..\Cramy.Domain\Cramy.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
