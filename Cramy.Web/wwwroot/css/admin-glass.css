@@ -26,6 +26,11 @@
     padding: 24px 0 56px;
 }
 
+.brand-disabled {
+    pointer-events: none; /* Tıklamayı tamamen kapatır */
+    cursor: default;
+    opacity: .85; /* Hafif pasif görünüm */
+}
 /* 3) Kart */
 .glass-card {
     background: var(--admin-glass-bg);

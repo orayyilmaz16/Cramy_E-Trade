@@ -1,0 +1,55 @@
+﻿@model Cramy.Domain.Entities.Category
+@{
+    ViewData["Title"] = "Yeni Kategori";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card">
+
+            <div class="glass-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Kategori Ekle</div>
+                    <h3 class="mt-2 mb-0">Yeni Kategori</h3>
+                    <div class="small-muted mt-1">Kategori adını girip kaydedin.</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                        Geri
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card-body">
+                <div asp-validation-summary="ModelOnly" class="mb-3"></div>
+
+                <form asp-area="Admin" asp-controller="AdminCategories" asp-action="Create"
+                      method="post" class="row g-3">
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-12">
+                        <label class="form-label small-muted">Kategori Adı</label>
+                        <input asp-for="Name" class="form-control input-glass" placeholder="Örn: Elektronik" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 d-flex gap-2 mt-2">
+                        <button type="submit" class="btn btn-glass btn-primary-glow">Kaydet</button>
+                        <a class="btn btn-glass"
+                           asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                            Vazgeç
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

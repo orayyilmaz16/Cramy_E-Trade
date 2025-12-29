@@ -1,0 +1,164 @@
+﻿
+
+@model List<Cramy.Domain.Entities.Category>
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "_AdminLayout";
+
+    string? q = ViewBag.Q as string;
+    int page = ViewBag.Page ?? 1;
+    int pageSize = ViewBag.PageSize ?? 20;
+    int totalCount = ViewBag.TotalCount ?? 0;
+
+    var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+    var currentPage = page < 1 ? 1 : page;
+
+
+    string BuildUrl(int p) =>
+        Url.Action("Index", "AdminCategories", new
+        {
+            area = "Admin",
+            q = q,
+            page = p,
+            pageSize = pageSize
+        })!;
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card">
+
+            <div class="glass-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Kategori Yönetimi</div>
+                    <h3 class="mt-2 mb-0">Kategoriler</h3>
+                    <div class="small-muted mt-1">Toplam: @totalCount</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-glass btn-primary-glow"
+                       asp-area="Admin" asp-controller="AdminCategories" asp-action="Create">
+                        + Yeni Kategori
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card-body">
+
+                @if (TempData["ok"] is not null)
+                {
+                    <div class="alert alert-success" role="alert">@TempData["ok"]</div>
+                }
+                @if (TempData["err"] is not null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["err"]</div>
+                }
+
+                <form method="get" class="row g-3 align-items-end mb-3"
+                      asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                    <div class="col-12 col-lg-8">
+                        <label class="form-label small-muted">Arama (Kategori adı)</label>
+                        <input class="form-control input-glass" name="q" value="@q" placeholder="Örn: Elektronik, Giyim..." />
+                    </div>
+
+                    <div class="col-12 col-lg-4 d-flex gap-2">
+                        <button class="btn btn-glass btn-primary-glow w-100" type="submit">Ara</button>
+                        <a class="btn btn-glass w-100" asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">Sıfırla</a>
+                    </div>
+                </form>
+
+                <div class="table-responsive" style="border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02);overflow:hidden;">
+                    <table class="table table-glass align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th style="width:220px;" class="text-end">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model is null || Model.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="2" class="py-4">
+                                        <div class="small-muted">Kayıt bulunamadı.</div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var c in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="fw-semibold">@c.Name</div>
+                                            <div class="small-muted">ID: @c.Id</div>
+                                        </td>
+
+                                        <td class="text-end">
+                                            <div class="d-inline-flex gap-2">
+                                                <a class="btn btn-sm btn-glass btn-primary-glow"
+                                                   asp-area="Admin" asp-controller="AdminCategories" asp-action="Edit" asp-route-id="@c.Id">
+                                                    Düzenle
+                                                </a>
+                                                <a class="btn btn-sm btn-glass btn-danger-glow"
+                                                   asp-area="Admin" asp-controller="AdminCategories" asp-action="Delete" asp-route-id="@c.Id">
+                                                    Sil
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (totalPages > 1)
+                {
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div class="small-muted">
+                            Sayfa @currentPage / @totalPages
+                        </div>
+
+                        <nav aria-label="Sayfalama">
+                            <ul class="pagination mb-0">
+
+                                <!-- Önceki -->
+                                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                    @if (currentPage == 1)
+                                    {
+                                        <span class="page-link">‹</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="@BuildUrl(currentPage - 1)">‹</a>
+                                    }
+                                </li>
+
+                                <!-- Aktif sayfa -->
+                                <li class="page-item active">
+                                    <span class="page-link">@currentPage</span>
+                                </li>
+
+                                <!-- Sonraki -->
+                                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                    @if (currentPage == totalPages)
+                                    {
+                                        <span class="page-link">›</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="@BuildUrl(currentPage + 1)">›</a>
+                                    }
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>

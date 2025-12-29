@@ -1,0 +1,70 @@
+﻿@model Cramy.Domain.Entities.Category
+@{
+    ViewData["Title"] = "Kategori Sil";
+    Layout = "_AdminLayout";
+    int productCount = ViewBag.ProductCount ?? 0;
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card">
+
+            <div class="glass-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Kategori Sil</div>
+                    <h3 class="mt-2 mb-0">Kategori Silme Onayı</h3>
+                    <div class="small-muted mt-1">Bu işlem geri alınamaz.</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                        Geri
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card-body">
+                @if (TempData["err"] is not null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["err"]</div>
+                }
+
+                <div class="mb-3">
+                    <div class="small-muted">Silinecek kategori</div>
+                    <div class="fs-5 fw-semibold">@Model.Name</div>
+                    <div class="small-muted">ID: @Model.Id</div>
+                </div>
+
+                @if (productCount > 0)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        Bu kategoriye bağlı <strong>@productCount</strong> ürün var. Silmek için önce bu ürünleri başka kategoriye taşımalısınız.
+                    </div>
+
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                        Listeye Dön
+                    </a>
+                }
+                else
+                {
+                    <form asp-area="Admin" asp-controller="AdminCategories" asp-action="Delete"
+                          method="post" class="d-flex flex-wrap gap-2">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        <button type="submit" class="btn btn-glass btn-danger-glow">
+                            Evet, Sil
+                        </button>
+                        <a class="btn btn-glass"
+                           asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                            Vazgeç
+                        </a>
+                    </form>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

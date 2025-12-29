@@ -29,9 +29,7 @@
         }
 
         /* HTML/BODY: height:100% yerine min-height kullan -> scroll/gradient daha stabil */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             margin: 0;
@@ -47,7 +45,11 @@
             flex: 1;
             min-height: 100vh;
             padding-top: calc(var(--nav-h) + 1rem);
-            background: radial-gradient(1200px 600px at 10% 5%, rgba(99,102,241,.30), transparent 60%), radial-gradient(900px 500px at 90% 20%, rgba(16,185,129,.22), transparent 55%), radial-gradient(800px 600px at 40% 90%, rgba(236,72,153,.18), transparent 60%), linear-gradient(180deg, #0b1220 0%, #070b14 100%);
+            background:
+                radial-gradient(1200px 600px at 10% 5%, rgba(99,102,241,.30), transparent 60%),
+                radial-gradient(900px 500px at 90% 20%, rgba(16,185,129,.22), transparent 55%),
+                radial-gradient(800px 600px at 40% 90%, rgba(236,72,153,.18), transparent 60%),
+                linear-gradient(180deg, #0b1220 0%, #070b14 100%);
             background-attachment: fixed; /* gradient "kesilme" hissini azaltır; istemezsen kaldır */
         }
 
@@ -57,9 +59,7 @@
             padding-top: 0;
         }
 
-        a {
-            text-decoration: none !important;
-        }
+        a { text-decoration: none !important; }
 
         :focus-visible {
             outline: none;
@@ -76,9 +76,7 @@
             box-shadow: var(--shadow);
         }
 
-        .app-brand {
-            letter-spacing: -0.02em;
-        }
+        .app-brand { letter-spacing: -0.02em; }
 
         .brand-badge {
             width: 40px;
@@ -90,11 +88,7 @@
             background: linear-gradient(90deg, rgba(13,110,253,0.9), rgba(102,16,242,0.9));
             box-shadow: 0 12px 28px rgba(13,110,253,0.18);
         }
-
-            .brand-badge .material-icons {
-                font-size: 22px;
-                color: #fff;
-            }
+        .brand-badge .material-icons { font-size: 22px; color: #fff; }
 
         .app-navbar .nav-link {
             color: rgba(255,255,255,0.82) !important;
@@ -106,28 +100,25 @@
             align-items: center;
             gap: .45rem;
         }
-
-            .app-navbar .nav-link:hover {
-                background: rgba(255,255,255,0.10);
-                transform: translateY(-1px);
-                color: #fff !important;
-            }
-
-            .app-navbar .nav-link.active {
-                background: rgba(13,110,253,0.16);
-                color: #fff !important;
-                border: 1px solid rgba(13,110,253,0.25);
-            }
+        .app-navbar .nav-link:hover {
+            background: rgba(255,255,255,0.10);
+            transform: translateY(-1px);
+            color: #fff !important;
+        }
+        .app-navbar .nav-link.active {
+            background: rgba(13,110,253,0.16);
+            color: #fff !important;
+            border: 1px solid rgba(13,110,253,0.25);
+        }
 
         .navbar-toggler {
             border: 1px solid rgba(255,255,255,0.18) !important;
             border-radius: 12px;
             padding: .5rem .65rem;
         }
-
-            .navbar-toggler:focus {
-                box-shadow: 0 0 0 .1rem rgba(255,255,255,0.85), 0 0 0 .25rem rgba(13,110,253,0.35);
-            }
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 .1rem rgba(255,255,255,0.85), 0 0 0 .25rem rgba(13,110,253,0.35);
+        }
 
         .dropdown-menu {
             border-radius: 14px;
@@ -135,14 +126,8 @@
             box-shadow: 0 18px 50px rgba(0,0,0,0.18);
             overflow: hidden;
         }
-
-        .dropdown-item {
-            padding: .65rem .9rem;
-        }
-
-            .dropdown-item:hover {
-                background: rgba(13,110,253,0.08);
-            }
+        .dropdown-item { padding: .65rem .9rem; }
+        .dropdown-item:hover { background: rgba(13,110,253,0.08); }
 
         .app-footer {
             background: rgba(17, 24, 39, 0.92);
@@ -150,141 +135,141 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
-
-        .footer-note {
-            color: rgba(255,255,255,0.62);
-        }
+        .footer-note { color: rgba(255,255,255,0.62); }
     </style>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top app-navbar">
-            <div class="container">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top app-navbar">
+        <div class="container">
 
-                <a class="navbar-brand fw-bold d-flex align-items-center gap-2 app-brand"
-                   asp-area="Admin" asp-controller="AdminHome" asp-action="Index" aria-label="Cramy admin ana sayfa">
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2 app-brand brand-disabled"
+                   asp-area="Admin" asp-controller="Home" asp-action="Index"
+                   aria-label="Cramy admin ana sayfa"
+                   aria-disabled="true"
+                   tabindex="-1">
                     <span class="brand-badge">
                         <span class="material-icons">shield</span>
                     </span>
                     <span>Cramy Admin</span>
                 </a>
 
-                <button class="navbar-toggler" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#adminNavbar"
-                        aria-controls="adminNavbar" aria-expanded="false" aria-label="Menüyü aç/kapat">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#adminNavbar"
+                    aria-controls="adminNavbar" aria-expanded="false" aria-label="Menüyü aç/kapat">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="adminNavbar">
+            <div class="collapse navbar-collapse" id="adminNavbar">
 
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">
+                            <i class="bi bi-box-seam"></i> Ürünler
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="AdminProducts" asp-action="Create">
+                            <i class="bi bi-plus-circle"></i> Ürün Ekle
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                            <i class="bi bi-tags"></i> Kategoriler
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+                            <i class="bi bi-receipt-cutoff"></i> Siparişler
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-arrow-left-circle"></i> Siteye Dön
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
+                            <i class="bi bi-cart"></i> Sepet
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                                Admin
+                                <span class="d-none d-lg-inline text-white-50 ms-1">(@User.Identity!.Name)</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">
+                                        <i class="bi bi-person me-2"></i> Profil
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="px-3 py-1">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">
-                                <i class="bi bi-box-seam"></i> Ürünler
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">
+                                <i class="bi bi-box-arrow-in-right"></i> Giriş
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="AdminProducts" asp-action="Create">
-                                <i class="bi bi-plus-circle"></i> Ürün Ekle
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
-                                <i class="bi bi-tags"></i> Kategoriler
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
-                                <i class="bi bi-receipt-cutoff"></i> Siparişler
-                            </a>
-                        </li>
+                    }
+                </ul>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-arrow-left-circle"></i> Siteye Dön
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
-                                <i class="bi bi-cart"></i> Sepet
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav ms-auto">
-                        @if (User.Identity?.IsAuthenticated ?? false)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown"
-                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i>
-                                    Admin
-                                    <span class="d-none d-lg-inline text-white-50 ms-1">(@User.Identity!.Name)</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">
-                                            <i class="bi bi-person me-2"></i> Profil
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="px-3 py-1">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="dropdown-item">
-                                                <i class="bi bi-box-arrow-right me-2"></i> Çıkış Yap
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">
-                                    <i class="bi bi-box-arrow-in-right"></i> Giriş
-                                </a>
-                            </li>
-                        }
-                    </ul>
-
-                </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
-    <div class="admin-bg">
-        <main class="container my-4">
-            @RenderBody()
-        </main>
+<div class="admin-bg">
+    <main class="container my-4">
+        @RenderBody()
+    </main>
 
-        <footer class="app-footer py-4 mt-auto">
-            <div class="container">
-                <div class="d-flex flex-wrap justify-content-between align-items-center footer-note small">
-                    <span>Admin Panel — Yetkisiz erişimler loglanır.</span>
-                    <span>© @DateTime.Now.Year — Cramy</span>
-                </div>
+    <footer class="app-footer py-4 mt-auto">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center footer-note small">
+                <span>Admin Panel — Yetkisiz erişimler loglanır.</span>
+                <span>© @DateTime.Now.Year — Cramy</span>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", required: false)
 
-    <script>
-        (function () {
-            const path = window.location.pathname.toLowerCase();
-            const links = document.querySelectorAll('.app-navbar .nav-link[href]');
-            links.forEach(a => {
-                const href = (a.getAttribute('href') || '').toLowerCase();
-                if (href && href !== '/' && path.startsWith(href)) a.classList.add('active');
-            });
-        })();
-    </script>
+<script>
+    (function () {
+        const path = window.location.pathname.toLowerCase();
+        const links = document.querySelectorAll('.app-navbar .nav-link[href]');
+        links.forEach(a => {
+            const href = (a.getAttribute('href') || '').toLowerCase();
+            if (href && href !== '/' && path.startsWith(href)) a.classList.add('active');
+        });
+    })();
+</script>
 </body>
 </html>
