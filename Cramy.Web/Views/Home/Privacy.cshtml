@@ -1,6 +1,562 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Gizlilik Politikası";
+    var lastUpdated = "29 Aralık 2025";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="container py-4 py-lg-5 privacy-page">
+    <!-- HERO -->
+    <div class="privacy-hero hero-glass rounded-4 p-4 p-lg-5 mb-4 position-relative overflow-hidden">
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
+
+        <div class="position-relative">
+            <span class="badge privacy-badge mb-3">
+                <i class="bi bi-shield-check me-2"></i> Güvenlik ve Şeffaflık
+            </span>
+
+            <h1 class="display-6 fw-bold mb-2">@ViewData["Title"]</h1>
+
+            <p class="lead text-muted mb-3">
+                Bu metin, Cramy platformunda kişisel verilerin nasıl işlendiğini, hangi amaçlarla kullanıldığını ve haklarınızı açıklar.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <span class="meta-pill">
+                    <i class="bi bi-calendar3 me-2"></i> Son Güncelleme: @lastUpdated
+                </span>
+                <span class="meta-pill">
+                    <i class="bi bi-geo-alt me-2"></i> Uygulama Alanı: Web / Mobil
+                </span>
+                <span class="meta-pill">
+                    <i class="bi bi-lock me-2"></i> Şifreleme: TLS/SSL
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- LEFT: NAV / TOC -->
+        <aside class="col-12 col-lg-4 col-xl-3">
+            <div class="card toc-card border-0 rounded-4 shadow-sm sticky-lg-top">
+                <div class="card-body p-3 p-md-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h2 class="h6 fw-semibold mb-0">İçindekiler</h2>
+                        <span class="text-muted small">Hızlı Geçiş</span>
+                    </div>
+
+                    <nav class="toc-nav">
+                        <a class="toc-link" href="#scope"><i class="bi bi-file-text me-2"></i>Kapsam</a>
+                        <a class="toc-link" href="#data-we-collect"><i class="bi bi-collection me-2"></i>Toplanan Veriler</a>
+                        <a class="toc-link" href="#how-we-use"><i class="bi bi-gear me-2"></i>Kullanım Amaçları</a>
+                        <a class="toc-link" href="#legal-basis"><i class="bi bi-balance-scale me-2"></i>Hukuki Sebepler</a>
+                        <a class="toc-link" href="#sharing"><i class="bi bi-share me-2"></i>Paylaşım ve Aktarım</a>
+                        <a class="toc-link" href="#cookies"><i class="bi bi-cookie me-2"></i>Çerezler</a>
+                        <a class="toc-link" href="#retention"><i class="bi bi-hourglass-split me-2"></i>Saklama Süresi</a>
+                        <a class="toc-link" href="#security"><i class="bi bi-shield-lock me-2"></i>Güvenlik</a>
+                        <a class="toc-link" href="#rights"><i class="bi bi-person-check me-2"></i>Haklarınız</a>
+                        <a class="toc-link" href="#contact"><i class="bi bi-envelope me-2"></i>İletişim</a>
+                    </nav>
+
+                    <hr class="my-3" />
+
+                    <div class="small text-muted">
+                        Bu sayfa bilgilendirme amaçlıdır. Hukuki uyum için KVKK/GDPR kapsamına göre şirketinizin süreçleriyle eşleştiriniz.
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT: CONTENT -->
+        <main class="col-12 col-lg-8 col-xl-9">
+            <!-- Quick summary callout -->
+            <div class="callout callout-info rounded-4 p-3 p-md-4 mb-4">
+                <div class="d-flex gap-3 align-items-start">
+                    <div class="callout-icon">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+                    <div>
+                        <h2 class="h5 fw-semibold mb-1">Kısa Özet</h2>
+                        <p class="mb-0 text-muted">
+                            Sizi tanımlayabilecek verileri yalnızca hizmeti sunmak, geliştirmek, güvenliği sağlamak ve yasal yükümlülüklerimizi yerine getirmek için işleriz.
+                            Verilerinizi izniniz olmadan satmayız.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sections -->
+            <section id="scope" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">1) Kapsam</h2>
+                <p>
+                    Bu Gizlilik Politikası; Cramy web sitesi, mobil arayüzleri ve ilgili hizmetler üzerinden toplanan kişisel verilerin işlenmesine ilişkindir.
+                    Politika; ziyaretçiler, üye kullanıcılar, müşteriler ve iş ortakları etkileşimlerini kapsar.
+                </p>
+                <ul class="clean-list">
+                    <li>Hesap oluşturma, giriş yapma ve kullanıcı profili süreçleri</li>
+                    <li>Ürün inceleme, sepet ve satın alma süreçleri</li>
+                    <li>Müşteri destek talepleri ve iletişim kayıtları</li>
+                    <li>Çerezler ve benzer teknolojiler aracılığıyla oluşan kullanım verileri</li>
+                </ul>
+            </section>
+
+            <section id="data-we-collect" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">2) Toplanan Veri Kategorileri</h2>
+
+                <div class="table-responsive">
+                    <table class="table align-middle privacy-table">
+                        <thead>
+                            <tr>
+                                <th>Veri Kategorisi</th>
+                                <th>Örnek</th>
+                                <th>Toplama Yöntemi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Kimlik / İletişim</td>
+                                <td>Ad, soyad, e-posta, telefon (opsiyonel)</td>
+                                <td>Formlar, hesap kayıt ekranı</td>
+                            </tr>
+                            <tr>
+                                <td>Hesap ve Güvenlik</td>
+                                <td>Parola (hash), oturum bilgileri, log kayıtları</td>
+                                <td>Uygulama kullanımı</td>
+                            </tr>
+                            <tr>
+                                <td>İşlem / Sipariş</td>
+                                <td>Sepet, satın alma geçmişi, fatura bilgileri</td>
+                                <td>Sipariş akışı</td>
+                            </tr>
+                            <tr>
+                                <td>Teknik / Kullanım</td>
+                                <td>Tarayıcı, cihaz, IP, sayfa etkileşimleri</td>
+                                <td>Çerezler, loglar, analitik</td>
+                            </tr>
+                            <tr>
+                                <td>İletişim Kayıtları</td>
+                                <td>Destek talepleri, e-posta yazışmaları</td>
+                                <td>İletişim kanalları</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="small text-muted">
+                    Not: Ödeme kartı bilgileri gibi yüksek hassasiyette veriler, ödeme altyapısı sağlayıcısı üzerinden işlenebilir; bu durumda veriler doğrudan tarafımızca saklanmayabilir.
+                </div>
+            </section>
+
+            <section id="how-we-use" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">3) Verileri Hangi Amaçlarla Kullanırız?</h2>
+
+                <div class="accordion" id="privacyAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="h-one">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-one" aria-expanded="true" aria-controls="c-one">
+                                Hizmet Sunumu ve Hesap Yönetimi
+                            </button>
+                        </h3>
+                        <div id="c-one" class="accordion-collapse collapse show" aria-labelledby="h-one" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                Üyelik işlemleri, giriş doğrulama, sipariş oluşturma, kargo süreçleri ve müşteri destek hizmetleri için gerekli verileri işleriz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="h-two">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-two" aria-expanded="false" aria-controls="c-two">
+                                Güvenlik, Dolandırıcılık Önleme ve Uygunluk
+                            </button>
+                        </h3>
+                        <div id="c-two" class="accordion-collapse collapse" aria-labelledby="h-two" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                Şüpheli etkinlikleri tespit etmek, hesap güvenliğini artırmak, log kayıtlarını izlemek ve yasal yükümlülükleri yerine getirmek amacıyla veri işlenebilir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="h-three">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-three" aria-expanded="false" aria-controls="c-three">
+                                İyileştirme ve Analitik
+                            </button>
+                        </h3>
+                        <div id="c-three" class="accordion-collapse collapse" aria-labelledby="h-three" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                Kullanım analizi, performans ölçümü ve kullanıcı deneyimini iyileştirmek için anonimleştirilmiş / toplulaştırılmış verilerden yararlanabiliriz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="h-four">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-four" aria-expanded="false" aria-controls="c-four">
+                                Pazarlama ve İletişim (İzinli)
+                            </button>
+                        </h3>
+                        <div id="c-four" class="accordion-collapse collapse" aria-labelledby="h-four" data-bs-parent="#privacyAccordion">
+                            <div class="accordion-body">
+                                Açık rızanıza bağlı olarak kampanya bilgilendirmeleri ve kişiselleştirilmiş içerikler sunabiliriz. İletişim tercihlerinizi dilediğiniz zaman değiştirebilirsiniz.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="legal-basis" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">4) Hukuki Sebepler</h2>
+                <p class="text-muted">
+                    Kişisel verileri; sözleşmenin kurulması/ifası, hukuki yükümlülüklerin yerine getirilmesi, meşru menfaat ve gerekli hallerde açık rıza gibi hukuki sebeplere dayanarak işleriz.
+                </p>
+                <ul class="clean-list">
+                    <li><strong>Sözleşme:</strong> Sipariş ve hesap işlemlerinin yürütülmesi</li>
+                    <li><strong>Hukuki yükümlülük:</strong> Faturalama ve yasal raporlama</li>
+                    <li><strong>Meşru menfaat:</strong> Güvenlik, hizmet kalitesi ve iyileştirme</li>
+                    <li><strong>Açık rıza:</strong> İzinli pazarlama iletişimi</li>
+                </ul>
+            </section>
+
+            <section id="sharing" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">5) Paylaşım ve Aktarım</h2>
+                <p>
+                    Veriler; hizmeti sunmak için zorunlu olduğu ölçüde sınırlı şekilde iş ortaklarıyla paylaşılabilir. Örnek:
+                </p>
+                <ul class="clean-list">
+                    <li><strong>Ödeme sağlayıcıları:</strong> Ödeme işlemlerinin yürütülmesi</li>
+                    <li><strong>Kargo/lojistik:</strong> Teslimatın sağlanması</li>
+                    <li><strong>Barındırma (hosting) / altyapı:</strong> Uygulamanın çalışması ve güvenliği</li>
+                    <li><strong>Analitik araçları:</strong> Performans ve kullanım ölçümü (gerekliyse)</li>
+                </ul>
+                <div class="callout callout-warning rounded-4 p-3 p-md-4 mt-3">
+                    <div class="d-flex gap-3 align-items-start">
+                        <div class="callout-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <h3 class="h6 fw-semibold mb-1">Yurtdışı Aktarım</h3>
+                            <p class="mb-0 text-muted">
+                                Bazı hizmet sağlayıcılar yurtdışında bulunabilir. Bu durumda aktarım, yürürlükteki mevzuata uygun güvenlik ve sözleşmesel önlemlerle yapılır.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cookies" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">6) Çerezler (Cookies)</h2>
+                <p class="text-muted">
+                    Çerezler; oturum yönetimi, tercihlerin hatırlanması ve analitik ölçüm için kullanılabilir.
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="mini-card">
+                            <div class="mini-title"><i class="bi bi-check2-circle me-2"></i>Zorunlu Çerezler</div>
+                            <div class="mini-text">Giriş, sepet, güvenlik gibi temel işlevler için gereklidir.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mini-card">
+                            <div class="mini-title"><i class="bi bi-graph-up me-2"></i>Analitik Çerezler</div>
+                            <div class="mini-text">Kullanımı ölçmek ve deneyimi iyileştirmek için yardımcı olur.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mt-3 mb-0">
+                    Tarayıcı ayarlarınızdan çerezleri yönetebilir veya silebilirsiniz. Zorunlu çerezlerin devre dışı bırakılması, sitenin düzgün çalışmasını engelleyebilir.
+                </p>
+            </section>
+
+            <section id="retention" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">7) Saklama Süresi</h2>
+                <p class="text-muted">
+                    Veriler; ilgili mevzuatta öngörülen süreler ve işleme amaçları için gerekli süre boyunca saklanır. Süre dolduğunda silme, yok etme veya anonimleştirme uygulanır.
+                </p>
+            </section>
+
+            <section id="security" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">8) Güvenlik Önlemleri</h2>
+                <ul class="clean-list">
+                    <li>Ulaşım güvenliği (TLS/SSL)</li>
+                    <li>Parola saklama (hashleme), erişim kontrolü ve rol bazlı yetkilendirme</li>
+                    <li>Loglama, izleme ve şüpheli aktivite tespiti</li>
+                    <li>Güncel güvenlik yamaları ve altyapı sertleştirmesi</li>
+                </ul>
+            </section>
+
+            <section id="rights" class="content-card mb-4">
+                <h2 class="h4 fw-semibold mb-3">9) Haklarınız</h2>
+                <p class="text-muted">
+                    Uygulanabilir mevzuat kapsamında; verilerinize erişme, düzeltme, silme, işleme kısıtlama, itiraz ve taşınabilirlik gibi haklara sahip olabilirsiniz.
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="mini-card">
+                            <div class="mini-title"><i class="bi bi-person-vcard me-2"></i>Erişim / Düzeltme</div>
+                            <div class="mini-text">Hesabınız üzerinden verilerinizi güncelleyebilirsiniz.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mini-card">
+                            <div class="mini-title"><i class="bi bi-trash3 me-2"></i>Silme / İmha</div>
+                            <div class="mini-text">Mevzuat ve saklama süreleri saklı kalmak kaydıyla talep edebilirsiniz.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="content-card mb-0">
+                <h2 class="h4 fw-semibold mb-3">10) İletişim</h2>
+                <p class="mb-3">
+                    Gizlilikle ilgili talepleriniz için bizimle iletişime geçebilirsiniz.
+                </p>
+
+                <div class="contact-card rounded-4 p-3 p-md-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-md-8">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="contact-icon">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">E-posta</div>
+                                    <div class="text-muted small">privacy@cramy.com (örnek)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 text-md-end">
+                            <a class="btn btn-primary w-100 w-md-auto" href="mailto:privacy@cramy.com">
+                                <i class="bi bi-send me-2"></i> E-posta Gönder
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="small text-muted mt-3 mb-0">
+                    Bu metin şablon amaçlıdır. Şirket unvanı, adres, veri sorumlusu bilgileri, çerez yönetimi ve kullanılan üçüncü taraf hizmetler gerçek yapınıza göre güncellenmelidir.
+                </p>
+            </section>
+        </main>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        /* Page scope */
+        .privacy-page {
+            animation: uiFadeIn .55s ease both;
+        }
+        
+
+        /* Hero glass */
+        .hero-glass {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 16px 44px rgba(0,0,0,0.10);
+        }
+
+        .privacy-badge {
+            background: rgba(13,110,253,0.10);
+            color: #0d6efd;
+            border: 1px solid rgba(13,110,253,0.22);
+            padding: .55rem .85rem;
+            border-radius: 999px;
+            font-weight: 650;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .25rem;
+            padding: .45rem .7rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.50);
+            border: 1px solid rgba(255,255,255,0.42);
+            color: rgba(33,37,41,0.82);
+            font-size: .9rem;
+        }
+
+        .hero-orb {
+            position: absolute;
+            width: 560px;
+            height: 560px;
+            border-radius: 50%;
+            filter: blur(28px);
+            opacity: .55;
+            pointer-events: none;
+        }
+
+        .privacy-hero .orb-1 {
+            left: -260px;
+            top: -260px;
+            background: radial-gradient(circle at 30% 30%, rgba(13,110,253,0.55), transparent 60%);
+        }
+
+        .privacy-hero .orb-2 {
+            right: -280px;
+            bottom: -280px;
+            background: radial-gradient(circle at 30% 30%, rgba(102,16,242,0.50), transparent 60%);
+        }
+
+        /* TOC */
+        .toc-card {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .toc-nav {
+            display: grid;
+            gap: .35rem;
+        }
+
+        .toc-link {
+            display: flex;
+            align-items: center;
+            padding: .55rem .65rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(33,37,41,0.85);
+            border: 1px solid transparent;
+            transition: transform .18s ease, background .18s ease, border-color .18s ease;
+        }
+
+            .toc-link:hover {
+                transform: translateY(-1px);
+                background: rgba(13,110,253,0.06);
+                border-color: rgba(13,110,253,0.15);
+            }
+
+        /* Content cards */
+        .content-card {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 18px;
+            padding: 1.1rem 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        
+
+        .clean-list {
+            padding-left: 1.2rem;
+            margin-bottom: 0;
+        }
+
+            .clean-list li {
+                margin: .35rem 0;
+            }
+
+        /* Callouts */
+        .callout {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .callout-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13,110,253,0.10);
+            color: #0d6efd;
+            flex: 0 0 auto;
+        }
+
+        .callout-warning .callout-icon {
+            background: rgba(255,193,7,0.14);
+            color: #b58100;
+        }
+
+        /* Mini cards */
+        .mini-card {
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.42);
+            border-radius: 16px;
+            padding: .9rem 1rem;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+            .mini-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 14px 34px rgba(0,0,0,0.10);
+            }
+
+        .mini-title {
+            font-weight: 700;
+            margin-bottom: .25rem;
+        }
+
+        .mini-text {
+            color: rgba(33,37,41,0.70);
+        }
+
+        /* Table */
+        .privacy-table thead th {
+            background: rgba(13,110,253,0.06);
+            border-bottom: 1px solid rgba(13,110,253,0.15);
+            font-weight: 700;
+        }
+
+        .privacy-table td, .privacy-table th {
+            border-color: rgba(0,0,0,0.06);
+        }
+
+        /* Contact */
+        .contact-card {
+            background: rgba(13,110,253,0.06);
+            border: 1px solid rgba(13,110,253,0.18);
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13,110,253,0.12);
+            color: #0d6efd;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // İçindekiler tıklanınca yumuşak kaydırma + küçük offset (navbar varsa)
+        (function () {
+            const links = document.querySelectorAll('.toc-link');
+            if (!links.length) return;
+
+            links.forEach(a => {
+                a.addEventListener('click', function (e) {
+                    const href = a.getAttribute('href');
+                    if (!href || !href.startsWith('#')) return;
+
+                    const target = document.querySelector(href);
+                    if (!target) return;
+
+                    e.preventDefault();
+
+                    const yOffset = 10; // fixed navbar varsa 70-90 gibi yapabilirsiniz
+                    const y = target.getBoundingClientRect().top + window.pageYOffset - yOffset;
+
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                });
+            });
+        })();
+    </script>
+}

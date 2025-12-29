@@ -16,13 +16,13 @@ namespace Cramy.Infrastructure.Services
 
         public async Task<ProductDto?> GetByIdAsync(Guid id)
             => await _db.Products.Where(p => p.Id == id)
-                .Select(p => new ProductDto(p.Id, p.SKU, p.Name, p.Description, p.Price, p.StockQuantity, p.CategoryId, p.IsActive))
+                .Select(p => new ProductDto(p.Id, p.SKU, p.Name, p.Description, p.Price, p.StockQuantity, p.CategoryId, p.IsActive,p.ImageUrl))
                 .FirstOrDefaultAsync();
 
         public async Task<IReadOnlyList<ProductDto>> GetPagedAsync(int page, int pageSize)
             => await _db.Products.OrderByDescending(p => p.CreatedAtUtc)
                 .Skip((page - 1) * pageSize).Take(pageSize)
-                .Select(p => new ProductDto(p.Id, p.SKU, p.Name, p.Description, p.Price, p.StockQuantity, p.CategoryId, p.IsActive))
+                .Select(p => new ProductDto(p.Id, p.SKU, p.Name, p.Description, p.Price, p.StockQuantity, p.CategoryId, p.IsActive, p.ImageUrl))
                 .ToListAsync();
 
         public async Task<Guid> CreateAsync(CreateProductDto dto)

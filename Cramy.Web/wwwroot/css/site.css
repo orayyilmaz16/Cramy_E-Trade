@@ -1,220 +1,240 @@
-/* Temel font scaling ve modern font */
-html {
-    font-size: 14px;
-    position: relative;
-    min-height: 100%;
+/* =========================================================
+   Home / Hero + Category Cards (Modern UI)
+   ========================================================= */
+
+/* HERO */
+.hero {
+    border-radius: 18px;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.10);
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
+.hero-glass {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.hero-title {
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+    max-width: 52ch;
+}
+
+.hero-badge {
+    background: rgba(13,110,253,0.10);
+    color: #0d6efd;
+    border: 1px solid rgba(13,110,253,0.20);
+    padding: .55rem .8rem;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* Hero background orbs */
+.hero-bg-orb {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    filter: blur(28px);
+    opacity: .55;
+    pointer-events: none;
+    transform: translateZ(0);
+}
+
+.orb-1 {
+    left: -220px;
+    top: -240px;
+    background: radial-gradient(circle at 30% 30%, rgba(13,110,253,0.55), transparent 60%);
+}
+
+.orb-2 {
+    right: -240px;
+    bottom: -260px;
+    background: radial-gradient(circle at 30% 30%, rgba(102,16,242,0.50), transparent 60%);
+}
+
+/* Hero CTA buttons micro-interactions */
+.hero-cta,
+.hero-secondary {
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+    .hero-cta:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 16px 30px rgba(102,16,242,0.22);
     }
-}
 
-body {
-    margin-bottom: 60px;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
-    color: #212529;
-    line-height: 1.6;
-    animation: fadeInBody 1.2s ease forwards;
-}
-
-@keyframes fadeInBody {
-    from {
-        opacity: 0;
+    .hero-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(13,110,253,0.18);
     }
 
-    to {
-        opacity: 1;
-    }
+/* Metrics */
+.hero-metrics {
+    display: flex;
+    gap: .75rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-/* Form placeholder UX */
-.form-floating > .form-control::placeholder,
-.form-floating > .form-control-plaintext::placeholder {
-    color: var(--bs-secondary-color);
-    text-align: end;
-    transition: all 0.3s ease;
+.metric {
+    min-width: 120px;
+    padding: .75rem 1rem;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.40);
+    backdrop-filter: blur(12px);
 }
 
-.form-floating > .form-control:focus::placeholder,
-.form-floating > .form-control-plaintext:focus::placeholder {
-    text-align: start;
-    opacity: 0.6;
+.metric-value {
+    font-weight: 750;
+    letter-spacing: -0.02em;
 }
 
-/* Button focus/hover/click effects */
-.btn {
-    transition: all 0.35s ease-in-out;
-    transform: perspective(600px) translateZ(0);
+.metric-label {
+    color: rgba(33,37,41,0.70);
+    font-size: .9rem;
 }
 
-    .btn:hover {
-        transform: perspective(600px) translateZ(12px) scale(1.06);
-        box-shadow: 0 8px 20px rgba(37, 140, 251, 0.4);
-    }
-
-    .btn:active {
-        transform: perspective(600px) translateZ(5px) scale(0.97);
-        box-shadow: inset 0 3px 6px rgba(0,0,0,0.2);
-    }
-
-        .btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
-        .form-control:focus, .form-check-input:focus {
-            box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-        }
-
-/* 3D Grid Layout */
+/* =========================================================
+   Grid: use your existing .grid-3d container
+   (If you already have .grid-3d, this will refine it)
+   ========================================================= */
 .grid-3d {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    perspective: 1000px;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.25rem;
 }
 
-    .grid-3d .card {
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        transition: transform 0.6s cubic-bezier(.25,.8,.25,1), box-shadow 0.3s ease;
-        transform-style: preserve-3d;
+@media (min-width: 576px) {
+    .grid-3d {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 992px) {
+    .grid-3d {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* =========================================================
+   Category Card (Glassmorphism + hover + glow after effect)
+   ========================================================= */
+.category-card {
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+    transform: translateZ(0);
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease;
+    position: relative;
+}
+
+    /* Glow overlay (after) */
+    .category-card::after {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        background: radial-gradient(600px 260px at 15% 10%, rgba(13,110,253,0.18), transparent 60%), radial-gradient(520px 280px at 85% 20%, rgba(102,16,242,0.14), transparent 60%);
+        opacity: 0;
+        transition: opacity .28s ease;
+        pointer-events: none;
+    }
+
+    .category-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 44px rgba(0,0,0,0.18);
+    }
+
+        .category-card:hover::after {
+            opacity: 1;
+        }
+
+    /* Media (image) */
+    .category-card .card-media {
+        position: relative;
         overflow: hidden;
     }
 
-        .grid-3d .card:hover {
-            transform: rotateY(8deg) translateY(-6px);
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25);
-        }
-
-        .grid-3d .card img {
-            border-top-left-radius: 14px;
-            border-top-right-radius: 14px;
-            transition: transform 0.5s ease;
-        }
-
-        .grid-3d .card:hover img {
-            transform: scale(1.05);
-        }
-
-/* CTA button styling */
-.cta-btn {
-    background: linear-gradient(90deg, #258cfb, #6610f2);
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 10px;
-    padding: 0.8rem 1.6rem;
-    transition: background 0.4s ease, transform 0.3s ease;
-}
-
-    .cta-btn:hover {
-        background: linear-gradient(90deg, #6610f2, #258cfb);
-        transform: scale(1.1);
-        box-shadow: 0 12px 24px rgba(102,16,242,0.4);
+    .category-card img.card-img-top {
+        height: 190px;
+        width: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .38s ease;
     }
 
-    .cta-btn:active {
-        transform: scale(0.95);
-        box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+    .category-card:hover img.card-img-top {
+        transform: scale(1.06);
     }
 
-/* Animation utilities */
-.fade-in {
-    animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.slide-up {
-    animation: slideUp 0.9s ease forwards;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Glassmorphism footer */
-.glass-footer {
-    background: rgba(33, 37, 41, 0.85);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255,255,255,0.2);
-    animation: fadeInFooter 1.5s ease forwards;
-}
-
-@keyframes fadeInFooter {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Navbar hover animation */
-.nav-link {
-    position: relative;
-    transition: color 0.3s ease;
-}
-
-    .nav-link::after {
+    /* Subtle top gradient for readability */
+    .category-card .card-media::after {
         content: "";
         position: absolute;
-        width: 0%;
-        height: 2px;
-        bottom: -2px;
-        left: 0;
-        background-color: #0d6efd;
-        transition: width 0.3s ease;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.00) 65%);
+        pointer-events: none;
     }
 
-    .nav-link:hover::after {
-        width: 100%;
+    /* Body spacing */
+    .category-card .card-body {
+        padding: 1rem 1rem 1.1rem;
     }
 
+    .category-card .card-title {
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: .35rem;
+    }
 
-body {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    font-family: 'Poppins', sans-serif;
-    color: #212529;
-    line-height: 1.6;
+    .category-card .card-text {
+        color: rgba(33,37,41,0.72);
+        margin-bottom: .9rem;
+        min-height: 44px; /* kartlar hizalý dursun */
+    }
+
+/* Small chip */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .85rem;
+    padding: .35rem .55rem;
+    border-radius: 999px;
+    background: rgba(13,110,253,0.08);
+    border: 1px solid rgba(13,110,253,0.18);
+    color: rgba(13,110,253,0.95);
+    user-select: none;
 }
 
-/* Hero Section */
-.hero-section {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    animation: fadeInHero 1.2s ease forwards;
+/* Improve outline button hover */
+.category-card .btn.btn-outline-primary {
+    transition: transform .18s ease, box-shadow .22s ease;
 }
 
-@keyframes fadeInHero {
+    .category-card .btn.btn-outline-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 18px rgba(13,110,253,0.14);
+    }
+
+/* Fade-in utility already exists; keep lightweight */
+.fade-in {
+    animation: uiFadeIn .55s ease both;
+}
+
+@keyframes uiFadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
     }
 
     to {
@@ -222,46 +242,3 @@ body {
         transform: translateY(0);
     }
 }
-
-/* Grid Layout */
-.grid-3d {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    perspective: 1000px;
-}
-
-/* Card Styling */
-.glass-card {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    transition: transform 0.5s ease, box-shadow 0.3s ease;
-    overflow: hidden;
-}
-
-    .glass-card:hover {
-        transform: translateY(-8px) rotateY(6deg);
-        box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-    }
-
-    .glass-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-
-/* CTA Button */
-.cta-btn {
-    background: linear-gradient(90deg, #0d6efd, #6610f2);
-    color: #fff;
-    font-weight: 600;
-    border-radius: 10px;
-    padding: 0.8rem 1.6rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-    .cta-btn:hover {
-        transform: scale(1.08);
-        box-shadow: 0 10px 20px rgba(102,16,242,0.4);
-    }

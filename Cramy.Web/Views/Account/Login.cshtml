@@ -1,9 +1,149 @@
 ﻿@model LoginViewModel
-<h2>Giriş Yap</h2>
-<form asp-action="Login" method="post">
-    <div><label>Email</label><input asp-for="Email" /></div>
-    <div><label>Şifre</label><input asp-for="Password" type="password" /></div>
-    <div><input asp-for="RememberMe" type="checkbox" /> Beni Hatırla</div>
-    <button type="submit">Giriş Yap</button>
-</form>
-<a asp-action="Register">Kayıt Ol</a>
+
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <h1 class="h3 fw-semibold mb-1">Giriş Yap</h1>
+                        <p class="text-muted mb-0">Hesabınıza erişmek için bilgilerinizi girin.</p>
+                    </div>
+
+                    @* Model doğrulama özetini üstte göster *@
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" id="validationSummary"></div>
+
+                    <form asp-action="Login" method="post" class="needs-validation" novalidate>
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">E-posta</label>
+                            <input asp-for="Email"
+                                   class="form-control form-control-lg"
+                                   autocomplete="email"
+                                   inputmode="email"
+                                   placeholder="ornek@site.com"
+                                   required />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label asp-for="Password" class="form-label mb-0">Şifre</label>
+                                @* Eğer ForgotPassword action varsa açın *@
+                                <a asp-action="ForgotPassword" class="link-secondary small text-decoration-none">
+                                    Şifremi unuttum
+                                </a>
+                            </div>
+
+                            <div class="input-group input-group-lg">
+                                <input asp-for="Password"
+                                       class="form-control"
+                                       type="password"
+                                       autocomplete="current-password"
+                                       placeholder="••••••••"
+                                       id="passwordInput"
+                                       required />
+                                <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn" aria-label="Şifreyi göster/gizle">
+                                    Göster
+                                </button>
+                            </div>
+
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" class="form-check-input" type="checkbox" />
+                                <label asp-for="RememberMe" class="form-check-label">Beni hatırla</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            Giriş Yap
+                        </button>
+
+                        <div class="text-center mt-4">
+                            <span class="text-muted">Hesabın yok mu?</span>
+                            <a asp-action="Register" class="fw-semibold text-decoration-none ms-1">Kayıt Ol</a>
+                        </div>
+
+                        @* İsteğe bağlı: sosyal giriş alanı (ileride) *@
+                        @*
+                        <hr class="my-4" />
+                        <button type="button" class="btn btn-outline-dark w-100">Google ile devam et</button>
+                        *@
+                    </form>
+
+                </div>
+            </div>
+
+            <p class="text-center text-muted small mt-3 mb-0">
+                © @DateTime.Now.Year — Tüm hakları saklıdır.
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Hafif modern dokunuş */
+        .card {
+            backdrop-filter: blur(6px);
+        }
+
+        .form-control:focus, .btn:focus {
+            box-shadow: 0 0 0 .25rem rgba(13,110,253,.15);
+        }
+        /* Validation summary boşsa görünmesin */
+        #validationSummary:empty {
+            display: none !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    @* MVC unobtrusive validation *@
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Bootstrap-like client-side "needs-validation" deneyimi (basit)
+        (function () {
+            const form = document.querySelector('form.needs-validation');
+            if (!form) return;
+
+            form.addEventListener('submit', function (event) {
+                // HTML5 validation
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+
+                // ASP.NET validation summary görünürlüğü
+                const summary = document.getElementById('validationSummary');
+                if (summary && summary.innerText && summary.innerText.trim().length > 0) {
+                    summary.classList.remove('d-none');
+                }
+            }, false);
+        })();
+
+        // Şifre göster/gizle
+        (function () {
+            const input = document.getElementById('passwordInput');
+            const btn = document.getElementById('togglePasswordBtn');
+            if (!input || !btn) return;
+
+            btn.addEventListener('click', function () {
+                const isPwd = input.type === 'password';
+                input.type = isPwd ? 'text' : 'password';
+                btn.textContent = isPwd ? 'Gizle' : 'Göster';
+            });
+        })();
+    </script>
+}

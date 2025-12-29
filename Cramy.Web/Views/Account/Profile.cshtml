@@ -1,0 +1,191 @@
+﻿@model Cramy.Web.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<section class="container py-5 profile-page">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+
+            <!-- Header -->
+            <div class="profile-header hero-glass rounded-4 p-4 mb-4 position-relative overflow-hidden">
+                <div class="hero-orb orb-1"></div>
+                <div class="hero-orb orb-2"></div>
+
+                <div class="position-relative d-flex align-items-center gap-3">
+                    <div class="profile-avatar">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div>
+                        <h1 class="h4 fw-semibold mb-1">Profil Bilgileri</h1>
+                        <p class="text-muted mb-0">
+                            Hesap bilgilerinizi buradan görüntüleyebilir ve güncelleyebilirsiniz.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            @if (TempData["ProfileSuccess"] != null)
+            {
+                <div class="alert alert-success d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle"></i>
+                    <span>@TempData["ProfileSuccess"]</span>
+                </div>
+            }
+
+            <!-- Profile Form -->
+            <div class="profile-card hero-glass rounded-4 p-4 p-lg-5">
+                <form asp-action="Profile" method="post" class="needs-validation" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <!-- Email (readonly) -->
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">E-posta</label>
+                        <input asp-for="Email"
+                               class="form-control form-control-lg"
+                               readonly />
+                        <div class="form-text">
+                            E-posta adresi şu an değiştirilemez.
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label asp-for="PhoneNumber" class="form-label">Telefon Numarası</label>
+                        <input asp-for="PhoneNumber"
+                               class="form-control form-control-lg"
+                               placeholder="+90 5xx xxx xx xx" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Optional name fields (aktifse aç) -->
+                    @*
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FirstName" class="form-label">Ad</label>
+                            <input asp-for="FirstName" class="form-control form-control-lg" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="LastName" class="form-label">Soyad</label>
+                            <input asp-for="LastName" class="form-control form-control-lg" />
+                        </div>
+                    </div>
+                    *@
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-save me-2"></i> Kaydet
+                        </button>
+
+                        <div class="d-flex gap-2">
+                            <a asp-action="ChangePassword"
+                               class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-key me-2"></i> Şifre Değiştir
+                            </a>
+
+                            <a asp-action="DeleteAccount"
+                               class="btn btn-outline-danger btn-lg">
+                                <i class="bi bi-trash me-2"></i> Hesabı Sil
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <p class="text-center text-muted small mt-4 mb-0">
+                © @DateTime.Now.Year — Cramy
+            </p>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .profile-page {
+            animation: fadeUp .55s ease both;
+        }
+
+        
+
+        .hero-glass {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 16px 44px rgba(0,0,0,0.10);
+        }
+
+        .profile-header {
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0d6efd, #6610f2);
+            box-shadow: 0 14px 30px rgba(13,110,253,0.35);
+            color: #fff;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            position: relative;
+        }
+
+        /* Decorative orbs */
+        .hero-orb {
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            filter: blur(28px);
+            opacity: .55;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            left: -260px;
+            top: -260px;
+            background: radial-gradient(circle at 30% 30%, rgba(13,110,253,0.55), transparent 60%);
+        }
+
+        .orb-2 {
+            right: -280px;
+            bottom: -280px;
+            background: radial-gradient(circle at 30% 30%, rgba(102,16,242,0.50), transparent 60%);
+        }
+
+        .form-control:focus, .btn:focus {
+            box-shadow: 0 0 0 .1rem #fff, 0 0 0 .25rem rgba(13,110,253,.25);
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Bootstrap-style client-side validation
+        (function () {
+            const forms = document.querySelectorAll('.needs-validation');
+            if (!forms.length) return;
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+}

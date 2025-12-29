@@ -2,51 +2,139 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="hero-section text-center my-5 fade-in">
-    <h1 class="display-4 fw-bold">Cramy E-Ticaret Sitesine Hoşgeldiniz</h1>
-    <p class="lead">Modern, hızlı ve güvenli alışveriş deneyimi.</p>
-    <a class="btn cta-btn btn-lg mt-3" asp-controller="Products" asp-action="Index">
-        <i class="bi bi-box-seam"></i> Ürünleri Gör
-    </a>
-</div>
+<section class="container py-4 py-lg-5">
+    <!-- HERO -->
+    <div class="hero hero-glass text-center position-relative overflow-hidden my-4 my-lg-5 fade-in">
+        <div class="hero-bg-orb orb-1"></div>
+        <div class="hero-bg-orb orb-2"></div>
 
-<!-- Grid Card Layout -->
-<div class="grid-3d mt-5">
-    <div class="card glass-card">
-        <img src="~/images/electronics.jpg" class="card-img-top" alt="Elektronik">
-        <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-laptop"></i> Elektronik</h5>
-            <p class="card-text">Son teknoloji laptop, telefon ve aksesuarlar.</p>
-            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
+        <div class="position-relative">
+            <span class="badge hero-badge mb-3">
+                Modern • Hızlı • Güvenli
+            </span>
+
+            <h1 class="display-5 display-lg-4 fw-bold hero-title mb-2">
+                Cramy E-Ticaret Sitesine Hoşgeldiniz
+            </h1>
+
+            <p class="lead text-muted mx-auto hero-subtitle mb-4">
+                Modern, hızlı ve güvenli alışveriş deneyimi.
+            </p>
+
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+                
+
+                <a class="btn btn-outline-primary btn-lg px-4 hero-secondary"
+                   asp-controller="Products" asp-action="Index">
+                    <i class="bi bi-lightning-charge me-2"></i> Hızlı Keşfet
+                </a>
+            </div>
+
+            <div class="hero-metrics mt-4">
+                <div class="metric">
+                    <div class="metric-value">24/7</div>
+                    <div class="metric-label">Destek</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">SSL</div>
+                    <div class="metric-label">Güvenli</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">Hızlı</div>
+                    <div class="metric-label">Teslimat</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="card glass-card">
-        <img src="~/images/fashion.jpg" class="card-img-top" alt="Moda">
-        <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-bag"></i> Moda</h5>
-            <p class="card-text">Trend kıyafetler ve şık kombinler.</p>
-            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
+    <!-- SECTION TITLE -->
+    <div class="d-flex align-items-end justify-content-between mb-3">
+        <div>
+            <h2 class="h4 fw-semibold mb-1">Kategoriler</h2>
+            <p class="text-muted mb-0">İhtiyacınıza göre hızlıca keşfedin.</p>
         </div>
     </div>
 
-    <div class="card glass-card">
-        <img src="~/images/home.jpg" class="card-img-top" alt="Ev & Yaşam">
-        <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-house-door"></i> Ev & Yaşam</h5>
-            <p class="card-text">Dekorasyon, mobilya ve yaşam ürünleri.</p>
-            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
-        </div>
-    </div>
+    <!-- GRID -->
+    <div class="grid-3d mt-4">
+        <!-- Card 1 -->
+        <article class="glass-card card category-card">
+            <div class="card-media">
+                <img src="~/images/electronics.jpg" class="card-img-top" alt="Elektronik">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-laptop me-2"></i> Elektronik
+                </h5>
+                <p class="card-text">Son teknoloji laptop, telefon ve aksesuarlar.</p>
 
-    <div class="card glass-card">
-        <img src="~/images/sports.jpg" class="card-img-top" alt="Spor">
-        <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-bicycle"></i> Spor</h5>
-            <p class="card-text">Spor ekipmanları, fitness ve outdoor ürünleri.</p>
-            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary">Keşfet</a>
-        </div>
-    </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-sm px-3">
+                        Keşfet
+                    </a>
+                    <span class="chip"><i class="bi bi-star-fill me-1"></i> Popüler</span>
+                </div>
+            </div>
+        </article>
 
-    
-</div>
+        <!-- Card 2 -->
+        <article class="glass-card card category-card">
+            <div class="card-media">
+                <img src="~/images/fashion.jpg" class="card-img-top" alt="Moda">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-bag me-2"></i> Moda
+                </h5>
+                <p class="card-text">Trend kıyafetler ve şık kombinler.</p>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-sm px-3">
+                        Keşfet
+                    </a>
+                    <span class="chip"><i class="bi bi-arrow-up-right me-1"></i> Yeni</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="glass-card card category-card">
+            <div class="card-media">
+                <img src="~/images/home.jpg" class="card-img-top" alt="Ev & Yaşam">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-house-door me-2"></i> Ev & Yaşam
+                </h5>
+                <p class="card-text">Dekorasyon, mobilya ve yaşam ürünleri.</p>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-sm px-3">
+                        Keşfet
+                    </a>
+                    <span class="chip"><i class="bi bi-shield-check me-1"></i> Güvenli</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="glass-card card category-card">
+            <div class="card-media">
+                <img src="~/images/sports.jpg" class="card-img-top" alt="Spor">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-bicycle me-2"></i> Spor
+                </h5>
+                <p class="card-text">Spor ekipmanları, fitness ve outdoor ürünleri.</p>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-sm px-3">
+                        Keşfet
+                    </a>
+                    <span class="chip"><i class="bi bi-geo-alt me-1"></i> Outdoor</span>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>

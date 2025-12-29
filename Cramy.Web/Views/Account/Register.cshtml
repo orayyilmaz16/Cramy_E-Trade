@@ -1,8 +1,266 @@
 ﻿@model RegisterViewModel
-<h2>Kayıt Ol</h2>
-<form asp-action="Register" method="post">
-    <div><label>Email</label><input asp-for="Email" /></div>
-    <div><label>Şifre</label><input asp-for="Password" type="password" /></div>
-    <div><label>Şifre Tekrar</label><input asp-for="ConfirmPassword" type="password" /></div>
-    <button type="submit">Kayıt Ol</button>
-</form>
+
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+            <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <h1 class="h3 fw-semibold mb-1">Kayıt Ol</h1>
+                        <p class="text-muted mb-0">Hesabınızı oluşturun ve alışverişe başlayın.</p>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" id="validationSummary"></div>
+
+                    <form asp-action="Register" method="post" class="needs-validation" novalidate>
+                        @Html.AntiForgeryToken()
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">E-posta</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-transparent">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       autocomplete="email"
+                                       inputmode="email"
+                                       placeholder="ornek@site.com"
+                                       required />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Şifre</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-transparent">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input asp-for="Password"
+                                       class="form-control"
+                                       type="password"
+                                       autocomplete="new-password"
+                                       placeholder="En az 8 karakter"
+                                       id="passwordInput"
+                                       required />
+                                <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn" aria-label="Şifreyi göster/gizle">
+                                    Göster
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+
+                            <!-- Password strength (client-side UX) -->
+                            <div class="mt-2">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <small class="text-muted">Şifre Gücü</small>
+                                    <small class="fw-semibold" id="pwdLabel">—</small>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" id="pwdBar" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="text-muted d-block mt-2">
+                                    İpucu: Büyük/küçük harf, rakam ve sembol kullanın.
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+                            <label asp-for="ConfirmPassword" class="form-label">Şifre Tekrar</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-transparent">
+                                    <i class="bi bi-shield-lock"></i>
+                                </span>
+                                <input asp-for="ConfirmPassword"
+                                       class="form-control"
+                                       type="password"
+                                       autocomplete="new-password"
+                                       placeholder="Şifreyi tekrar girin"
+                                       id="confirmPasswordInput"
+                                       required />
+                                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPasswordBtn" aria-label="Şifre tekrarını göster/gizle">
+                                    Göster
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+
+                            <div class="form-text mt-2" id="matchHint"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            Kayıt Ol
+                        </button>
+
+                        <div class="text-center mt-4">
+                            <span class="text-muted">Zaten hesabın var mı?</span>
+                            <a asp-action="Login" class="fw-semibold text-decoration-none ms-1">Giriş Yap</a>
+                        </div>
+
+                       
+                    </form>
+
+                </div>
+            </div>
+
+            <p class="text-center text-muted small mt-3 mb-0">
+                © @DateTime.Now.Year — Cramy
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Sayfaya özel modern görünüm */
+        .auth-card {
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .input-group-text {
+            border-right: 0;
+        }
+
+        .input-group .form-control {
+            border-left: 0;
+        }
+
+        .form-control:focus, .btn:focus {
+            box-shadow: 0 0 0 .1rem #fff, 0 0 0 .25rem rgba(13,110,253,.25);
+        }
+
+        #validationSummary:empty {
+            display: none !important;
+        }
+
+        /* Küçük mikro-animasyonlar */
+        .auth-card {
+            animation: regFadeUp .55s ease both;
+        }
+        
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Bootstrap benzeri form validation davranışı
+        (function () {
+            const form = document.querySelector('form.needs-validation');
+            if (!form) return;
+
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+
+                const summary = document.getElementById('validationSummary');
+                if (summary && summary.innerText && summary.innerText.trim().length > 0) {
+                    summary.classList.remove('d-none');
+                }
+            }, false);
+        })();
+
+        // Password show/hide
+        (function () {
+            const pwd = document.getElementById('passwordInput');
+            const btn = document.getElementById('togglePasswordBtn');
+            if (pwd && btn) {
+                btn.addEventListener('click', function () {
+                    const isPwd = pwd.type === 'password';
+                    pwd.type = isPwd ? 'text' : 'password';
+                    btn.textContent = isPwd ? 'Gizle' : 'Göster';
+                });
+            }
+
+            const cpwd = document.getElementById('confirmPasswordInput');
+            const cbtn = document.getElementById('toggleConfirmPasswordBtn');
+            if (cpwd && cbtn) {
+                cbtn.addEventListener('click', function () {
+                    const isPwd = cpwd.type === 'password';
+                    cpwd.type = isPwd ? 'text' : 'password';
+                    cbtn.textContent = isPwd ? 'Gizle' : 'Göster';
+                });
+            }
+        })();
+
+        // Password strength + match hint (basit UX)
+        (function () {
+            const pwd = document.getElementById('passwordInput');
+            const cpwd = document.getElementById('confirmPasswordInput');
+            const bar = document.getElementById('pwdBar');
+            const label = document.getElementById('pwdLabel');
+            const hint = document.getElementById('matchHint');
+
+            function scorePassword(p) {
+                if (!p) return 0;
+                let score = 0;
+                // length
+                score += Math.min(30, p.length * 3);
+                // variety
+                if (/[a-z]/.test(p)) score += 15;
+                if (/[A-Z]/.test(p)) score += 15;
+                if (/\d/.test(p)) score += 15;
+                if (/[^A-Za-z0-9]/.test(p)) score += 15;
+                // penalty if too short
+                if (p.length < 8) score = Math.min(score, 35);
+                return Math.min(100, score);
+            }
+
+            function renderStrength(score) {
+                bar.style.width = score + "%";
+                // Bootstrap sınıfları (renk için)
+                bar.classList.remove("bg-danger", "bg-warning", "bg-success");
+                let text = "Zayıf";
+                if (score >= 70) { bar.classList.add("bg-success"); text = "Güçlü"; }
+                else if (score >= 45) { bar.classList.add("bg-warning"); text = "Orta"; }
+                else { bar.classList.add("bg-danger"); text = "Zayıf"; }
+                label.textContent = text;
+            }
+
+            function renderMatch() {
+                if (!pwd || !cpwd || !hint) return;
+                const p = pwd.value || "";
+                const c = cpwd.value || "";
+                if (!c) {
+                    hint.textContent = "";
+                    hint.className = "form-text mt-2";
+                    return;
+                }
+                if (p === c) {
+                    hint.textContent = "Şifreler eşleşiyor.";
+                    hint.className = "form-text mt-2 text-success";
+                } else {
+                    hint.textContent = "Şifreler eşleşmiyor.";
+                    hint.className = "form-text mt-2 text-danger";
+                }
+            }
+
+            if (pwd) {
+                pwd.addEventListener("input", function () {
+                    renderStrength(scorePassword(pwd.value));
+                    renderMatch();
+                });
+                renderStrength(0);
+            }
+
+            if (cpwd) {
+                cpwd.addEventListener("input", renderMatch);
+            }
+        })();
+    </script>
+}

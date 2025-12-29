@@ -1,0 +1,446 @@
+﻿@{
+    ViewData["Title"] = "İletişim";
+    var brand = "Cramy";
+    var supportEmail = "support@cramy.com"; // örnek
+    var phone = "+90 (5xx) xxx xx xx";      // örnek
+    var address = "İstanbul, Türkiye (örnek adres)"; // örnek
+}
+
+<section class="container py-4 py-lg-5 contact-page">
+
+    <!-- HERO -->
+    <div class="contact-hero hero-glass rounded-4 p-4 p-lg-5 mb-4 position-relative overflow-hidden">
+        <div class="hero-orb orb-1"></div>
+        <div class="hero-orb orb-2"></div>
+
+        <div class="position-relative">
+            <span class="badge contact-badge mb-3">
+                <i class="bi bi-chat-dots me-2"></i> Size Yardımcı Olalım
+            </span>
+
+            <h1 class="display-6 fw-bold mb-2">@ViewData["Title"]</h1>
+            <p class="lead text-muted mb-0 contact-subtitle">
+                Sorularınız, sipariş süreçleri veya iş birliği talepleriniz için bize ulaşın.
+                En hızlı dönüş için sipariş numaranızı paylaşmayı unutmayın.
+            </p>
+        </div>
+    </div>
+
+    <!-- CONTACT CARDS -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="mini-card h-100">
+                <div class="mini-icon"><i class="bi bi-envelope"></i></div>
+                <div class="mini-title">E-posta</div>
+                <div class="mini-text text-muted">@supportEmail</div>
+                <a class="mini-link mt-2" href="mailto:@supportEmail">
+                    Mail Gönder <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="mini-card h-100">
+                <div class="mini-icon"><i class="bi bi-telephone"></i></div>
+                <div class="mini-title">Telefon</div>
+                <div class="mini-text text-muted">@phone</div>
+                <a class="mini-link mt-2" href="tel:@phone">
+                    Ara <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="mini-card h-100">
+                <div class="mini-icon"><i class="bi bi-geo-alt"></i></div>
+                <div class="mini-title">Adres</div>
+                <div class="mini-text text-muted">@address</div>
+                <a class="mini-link mt-2" href="#map">
+                    Haritayı Gör <i class="bi bi-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- FORM -->
+        <div class="col-12 col-lg-7">
+            <div class="content-card">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                    <h2 class="h4 fw-semibold mb-0">Bize Yazın</h2>
+                    <span class="text-muted small">Genelde 24 saat içinde dönüş yaparız</span>
+                </div>
+
+                @* İsterseniz bu formu gerçek bir controller action'a bağlayın *@
+                <form asp-controller="Home" asp-action="Contact" method="post" class="needs-validation" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3 mt-1">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Ad Soyad</label>
+                            <input class="form-control form-control-lg" name="FullName" placeholder="Adınız Soyadınız" required />
+                            <div class="invalid-feedback">Lütfen ad soyad girin.</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">E-posta</label>
+                            <input class="form-control form-control-lg" type="email" name="Email" placeholder="ornek@site.com" required />
+                            <div class="invalid-feedback">Geçerli bir e-posta girin.</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Konu</label>
+                            <select class="form-select form-select-lg" name="Subject" required>
+                                <option value="" selected disabled>Seçiniz</option>
+                                <option>Sipariş / Kargo</option>
+                                <option>Ürün / İade</option>
+                                <option>Hesap / Giriş</option>
+                                <option>İş Birliği</option>
+                                <option>Diğer</option>
+                            </select>
+                            <div class="invalid-feedback">Lütfen bir konu seçin.</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Sipariş Numarası (opsiyonel)</label>
+                            <input class="form-control form-control-lg" name="OrderNo" placeholder="Örn: CR-2025-000123" />
+                            <div class="form-text">Siparişle ilgiliyse ekleyin, işlemi hızlandıralım.</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Mesaj</label>
+                            <textarea class="form-control" name="Message" rows="5" placeholder="Nasıl yardımcı olabiliriz?" required></textarea>
+                            <div class="invalid-feedback">Lütfen mesajınızı yazın.</div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="kvkk" required>
+                                <label class="form-check-label" for="kvkk">
+                                    İletişim talebim kapsamında verilerimin işlenmesini kabul ediyorum.
+                                </label>
+                                <div class="invalid-feedback">Devam etmek için onay gerekli.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                            <button type="submit" class="btn btn-primary btn-lg px-4">
+                                <i class="bi bi-send me-2"></i> Gönder
+                            </button>
+
+                            <div class="text-muted small">
+                                Alternatif: <a class="text-decoration-none" href="mailto:@supportEmail">@supportEmail</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: HOURS + FAQ -->
+        <div class="col-12 col-lg-5">
+            <div class="content-card mb-4">
+                <h2 class="h5 fw-semibold mb-3">Çalışma Saatleri</h2>
+
+                <div class="hours">
+                    <div class="hours-row">
+                        <span>Pazartesi - Cuma</span>
+                        <span class="text-muted">09:00 - 18:00</span>
+                    </div>
+                    <div class="hours-row">
+                        <span>Cumartesi</span>
+                        <span class="text-muted">10:00 - 15:00</span>
+                    </div>
+                    <div class="hours-row">
+                        <span>Pazar</span>
+                        <span class="text-muted">Kapalı</span>
+                    </div>
+                </div>
+
+                <div class="callout mt-3">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Yoğunluk dönemlerinde dönüş süremiz uzayabilir. Sipariş numaranızı eklemek hızlandırır.
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2 class="h5 fw-semibold mb-3">Sık Sorulanlar</h2>
+
+                <div class="accordion" id="contactFaq">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="cq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ca1" aria-expanded="true" aria-controls="ca1">
+                                İade süreci nasıl işler?
+                            </button>
+                        </h3>
+                        <div id="ca1" class="accordion-collapse collapse show" aria-labelledby="cq1" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                İade talebinizi konu seçeneğiyle iletin. Destek ekibi size adımları ve kargo yönlendirmesini paylaşır.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="cq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ca2" aria-expanded="false" aria-controls="ca2">
+                                Siparişim ne zaman kargoya verilir?
+                            </button>
+                        </h3>
+                        <div id="ca2" class="accordion-collapse collapse" aria-labelledby="cq2" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                Stok ve yoğunluğa göre değişebilir. Sipariş numaranızı iletirseniz hızlı kontrol edebiliriz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="cq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ca3" aria-expanded="false" aria-controls="ca3">
+                                Hesabıma giriş yapamıyorum, ne yapmalıyım?
+                            </button>
+                        </h3>
+                        <div id="ca3" class="accordion-collapse collapse" aria-labelledby="cq3" data-bs-parent="#contactFaq">
+                            <div class="accordion-body">
+                                E-posta adresinizi kontrol edin ve şifre sıfırlama adımlarını deneyin. Devam ederse bize yazın.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a class="btn btn-outline-primary w-100" asp-controller="Home" asp-action="Privacy">
+                        <i class="bi bi-shield-check me-2"></i> Gizlilik Politikası
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP -->
+    <div id="map" class="content-card mt-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+            <h2 class="h5 fw-semibold mb-0">Konum</h2>
+            <span class="text-muted small">Örnek harita alanı</span>
+        </div>
+
+        <div class="map-wrap">
+            @* Gerçek adresiniz için Google Maps embed linki koyabilirsiniz *@
+            <div class="map-placeholder d-flex align-items-center justify-content-center text-muted">
+                <div class="text-center">
+                    <i class="bi bi-geo-alt fs-2"></i>
+                    <div class="mt-2">Harita embed alanı</div>
+                    <div class="small">İsterseniz buraya iframe ekleyebilirsiniz.</div>
+                </div>
+            </div>
+
+            @* Örnek iframe:
+            <iframe
+                src="https://www.google.com/maps/embed?pb=..."
+                width="100%" height="320" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            *@
+        </div>
+    </div>
+
+</section>
+
+@section Styles {
+    <style>
+        .contact-page {
+            animation: uiFadeIn .55s ease both;
+        }
+       
+
+        /* Glass surface */
+        .hero-glass {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 16px 44px rgba(0,0,0,0.10);
+        }
+
+        .contact-badge {
+            background: rgba(13,110,253,0.10);
+            color: #0d6efd;
+            border: 1px solid rgba(13,110,253,0.22);
+            padding: .55rem .85rem;
+            border-radius: 999px;
+            font-weight: 650;
+        }
+
+        .contact-subtitle {
+            max-width: 75ch;
+        }
+
+        /* Hero orbs */
+        .hero-orb {
+            position: absolute;
+            width: 560px;
+            height: 560px;
+            border-radius: 50%;
+            filter: blur(28px);
+            opacity: .55;
+            pointer-events: none;
+        }
+
+        .contact-hero .orb-1 {
+            left: -260px;
+            top: -260px;
+            background: radial-gradient(circle at 30% 30%, rgba(13,110,253,0.55), transparent 60%);
+        }
+
+        .contact-hero .orb-2 {
+            right: -280px;
+            bottom: -280px;
+            background: radial-gradient(circle at 30% 30%, rgba(102,16,242,0.50), transparent 60%);
+        }
+
+        /* Content cards */
+        .content-card {
+            background: rgba(255,255,255,0.62);
+            border: 1px solid rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 18px;
+            padding: 1.1rem 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        
+
+        /* Mini contact cards */
+        .mini-card {
+            background: rgba(255,255,255,0.60);
+            border: 1px solid rgba(255,255,255,0.42);
+            border-radius: 18px;
+            padding: 1rem 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform .18s ease, box-shadow .18s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .mini-card::after {
+                content: "";
+                position: absolute;
+                inset: -1px;
+                background: radial-gradient(520px 220px at 10% 10%, rgba(13,110,253,0.14), transparent 60%), radial-gradient(520px 220px at 90% 20%, rgba(102,16,242,0.12), transparent 60%);
+                opacity: 0;
+                transition: opacity .18s ease;
+                pointer-events: none;
+            }
+
+            .mini-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 16px 40px rgba(0,0,0,0.10);
+            }
+
+                .mini-card:hover::after {
+                    opacity: 1;
+                }
+
+        .mini-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13,110,253,0.10);
+            color: #0d6efd;
+            font-size: 1.2rem;
+            margin-bottom: .6rem;
+        }
+
+        .mini-title {
+            font-weight: 750;
+        }
+
+        .mini-text {
+            margin-top: .15rem;
+        }
+
+        .mini-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            font-weight: 650;
+            color: rgba(13,110,253,0.95);
+        }
+
+        /* Hours */
+        .hours {
+            display: grid;
+            gap: .6rem;
+            margin-top: .75rem;
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            padding: .65rem .75rem;
+            border-radius: 14px;
+            background: rgba(13,110,253,0.06);
+            border: 1px solid rgba(13,110,253,0.14);
+        }
+
+        /* Callout */
+        .callout {
+            padding: .85rem .95rem;
+            border-radius: 16px;
+            background: rgba(255,193,7,0.12);
+            border: 1px solid rgba(255,193,7,0.22);
+            color: rgba(33,37,41,0.85);
+        }
+
+        /* Form focus */
+        .form-control:focus, .form-select:focus, .btn:focus {
+            box-shadow: 0 0 0 .1rem #fff, 0 0 0 .25rem rgba(13,110,253,.22);
+        }
+
+        /* Map */
+        .map-wrap {
+            overflow: hidden;
+            border-radius: 18px;
+        }
+
+        .map-placeholder {
+            height: 320px;
+            border-radius: 18px;
+            background: rgba(13,110,253,0.06);
+            border: 1px dashed rgba(13,110,253,0.30);
+        }
+
+        /* Accordion */
+        .accordion-item {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .accordion-button:focus {
+            box-shadow: 0 0 0 .1rem #fff, 0 0 0 .25rem rgba(13,110,253,.22);
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Client-side HTML5 validation (Bootstrap style)
+        (function () {
+            const forms = document.querySelectorAll('.needs-validation');
+            if (!forms.length) return;
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+}
