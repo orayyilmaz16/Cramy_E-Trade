@@ -195,6 +195,59 @@
 
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
+
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            if (User.IsInRole("admin") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown"
+                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-shield-lock"></i> Yönetim
+                                    </a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li class="dropdown-header text-uppercase small text-muted px-3">Ürün Yönetimi</li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="AdminProducts" asp-action="Create">
+                                                <i class="bi bi-plus-circle me-2"></i> Ürün Ekle
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">
+                                                <i class="bi bi-list-check me-2"></i> Ürün Listele / Güncelle / Sil
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider" /></li>
+
+                                        <li class="dropdown-header text-uppercase small text-muted px-3">Kategori Yönetimi</li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+                                                <i class="bi bi-tags me-2"></i> Kategori Listele / Güncelle / Sil
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="AdminCategories" asp-action="Create">
+                                                <i class="bi bi-plus-square me-2"></i> Kategori Ekle
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider" /></li>
+
+                                        <li class="dropdown-header text-uppercase small text-muted px-3">Sipariş Yönetimi</li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+                                                <i class="bi bi-receipt-cutoff me-2"></i> Siparişler
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+
+
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">
                                 <i class="bi bi-house"></i> Ana Sayfa
@@ -206,12 +259,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Orders" asp-action="Index">
+                            <a class="nav-link" asp-controller="Order" asp-action="Index">
                                 <i class="bi bi-receipt"></i> Siparişler
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Cart" asp-action="Index">
+                            <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
                                 <i class="bi bi-cart"></i> Sepet
                             </a>
                         </li>

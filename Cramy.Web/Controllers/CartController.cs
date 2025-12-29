@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Cramy.Web.Controllers
 {
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer,Admin")]
     public class CartController : Controller
     {
         private readonly ICardService _card;

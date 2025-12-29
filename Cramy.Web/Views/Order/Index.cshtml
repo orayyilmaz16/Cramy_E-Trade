@@ -1,0 +1,93 @@
+﻿@model IEnumerable<OrderViewModel>
+
+@{
+    ViewData["Title"] = "Siparişlerim";
+}
+
+<div class="container">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h4 fw-semibold mb-1">Siparişler</h1>
+            <p class="text-muted mb-0">Geçmiş ve aktif siparişlerinizi buradan takip edebilirsiniz.</p>
+        </div>
+    </div>
+
+    <!-- Orders Card -->
+    <div class="card border-0 shadow-sm"
+         style="border-radius:16px;">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Sipariş No</th>
+                            <th>Tarih</th>
+                            <th>Toplam</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlem</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>@order.Id</td>
+
+                                    <td class="fw-semibold">
+                                        @order.OrderNumber
+                                    </td>
+
+                                    <td>
+                                        @order.CreatedAtUtc.ToString("dd.MM.yyyy HH:mm")
+                                    </td>
+
+                                    <td class="fw-semibold">
+                                        @order.TotalPrice.ToString("C")
+                                    </td>
+
+                                    <td>
+                                        <span class="badge rounded-pill
+                                                    @(order.Status == "Completed" ? "bg-success" :
+                                                                                            order.Status == "Pending" ? "bg-warning text-dark" :
+                                                                                            order.Status == "Cancelled" ? "bg-danger" :
+                                                                                            "bg-secondary")">
+                                            @order.Status
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <a asp-controller="Orders"
+                                           asp-action="Detail"
+                                           asp-route-id="@order.Id"
+                                           class="btn btn-sm btn-outline-primary rounded-3">
+                                            <i class="bi bi-eye"></i>
+                                            Detay
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="bi bi-receipt fs-2 d-block mb-2"></i>
+                                    Henüz bir siparişiniz bulunmamaktadır.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

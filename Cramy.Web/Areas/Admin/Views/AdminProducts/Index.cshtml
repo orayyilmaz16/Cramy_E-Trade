@@ -1,0 +1,256 @@
+﻿@model Cramy.Web.Areas.Admin.Models.ProductListViewModel
+@{
+    ViewData["Title"] = "Ürünler";
+
+    var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+    string BuildUrl(int p) =>
+        Url.Action("Index", "AdminProducts", new
+        {
+            area = "Admin",
+            q = Model.Q,
+            active = Model.Active,
+            categoryId = Model.CategoryId,
+            page = p,
+            pageSize = Model.PageSize
+        })!;
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card admin-card">
+
+            <div class="glass-card-header admin-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Ürün Yönetimi</div>
+                    <h3 class="mt-2 mb-0">Ürünler</h3>
+                    <div class="small-muted mt-1">Toplam: @Model.TotalCount</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-glass btn-primary-glow"
+                       asp-area="Admin" asp-controller="AdminProducts" asp-action="Create">
+                        + Yeni Ürün
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card-body admin-card-body">
+                @if (TempData["ok"] is not null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["ok"]
+                    </div>
+                }
+
+                <form method="get"
+                      class="row g-3 align-items-end mb-3 admin-filter"
+                      asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">
+                    <div class="col-12 col-lg-4">
+                        <label class="form-label small-muted">Arama (SKU / İsim)</label>
+                        <input class="form-control input-glass" name="q" value="@Model.Q"
+                               placeholder="Örn: CRMY-001, Mouse..." />
+                    </div>
+
+                    <div class="col-12 col-lg-3">
+                        <label class="form-label small-muted">Kategori</label>
+                        <select class="form-select select-glass" name="categoryId">
+                            <option value="">Tümü</option>
+                            @foreach (var c in Model.Categories)
+                            {
+                                var selected = Model.CategoryId?.ToString() == c.Value;
+                                <option value="@c.Value" selected="@(selected ? "selected" : null)">
+                                    @c.Text
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-lg-2">
+                        <label class="form-label small-muted">Durum</label>
+                        <select class="form-select select-glass" name="active">
+                            <option value="">Tümü</option>
+                            <option value="true" selected="@(Model.Active == true ? "selected" : null)">Aktif</option>
+                            <option value="false" selected="@(Model.Active == false ? "selected" : null)">Pasif</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-lg-3 d-flex gap-2">
+                        <button class="btn btn-glass btn-primary-glow w-100" type="submit">Filtrele</button>
+                        <a class="btn btn-glass w-100"
+                           asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">
+                            Sıfırla
+                        </a>
+                    </div>
+                </form>
+
+                <div class="table-responsive admin-table-wrap">
+                    <table class="table table-glass align-middle">
+                        <thead>
+                            <tr>
+                                <th style="width:70px;">Görsel</th>
+                                <th>Ürün</th>
+                                <th style="width:130px;">Fiyat</th>
+                                <th style="width:110px;">Stok</th>
+                                <th style="width:160px;">Kategori</th>
+                                <th style="width:110px;">Durum</th>
+                                <th style="width:240px;" class="text-end">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Items is null || !Model.Items.Any())
+                            {
+                                <tr>
+                                    <td colspan="7" class="py-4">
+                                        <div class="small-muted">Kayıt bulunamadı.</div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.Items)
+                                {
+                                    <tr class="admin-row">
+                                        <td>
+                                            @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                                            {
+                                                <img class="thumb" src="@item.ImageUrl" alt="@item.Name" />
+                                            }
+                                            else
+                                            {
+                                                <div class="thumb d-flex align-items-center justify-content-center">
+                                                    <span class="small-muted">—</span>
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            <div class="fw-semibold">@item.Name</div>
+                                            <div class="small-muted">SKU: @item.SKU</div>
+                                            <div class="small-muted">
+                                                Oluşturma: @item.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                            </div>
+                                        </td>
+
+                                        <td>@item.Price.ToString("C")</td>
+
+                                        <td><span class="badge-soft">@item.StockQuantity</span></td>
+
+                                        <td><span class="badge-soft">@item.Category?.Name</span></td>
+
+                                        <td>
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="badge-soft badge-state badge-state-on">Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-soft badge-state badge-state-off">Pasif</span>
+                                            }
+                                        </td>
+
+                                        <td class="text-end">
+                                            <div class="d-inline-flex gap-2">
+                                                <a class="btn btn-sm btn-glass"
+                                                   asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.Id">
+                                                    Detay
+                                                </a>
+                                                <a class="btn btn-sm btn-glass btn-primary-glow"
+                                                   asp-area="Admin" asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.Id">
+                                                    Düzenle
+                                                </a>
+                                                <a class="btn btn-sm btn-glass btn-danger-glow"
+                                                   asp-area="Admin" asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@item.Id">
+                                                    Sil
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (totalPages > 1)
+                {
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div class="small-muted">
+                            Sayfa @Model.Page / @totalPages
+                        </div>
+
+                        <nav aria-label="Sayfalama">
+                            <ul class="pagination mb-0 admin-pagination">
+                                <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                                    <a class="page-link admin-page-link" href="@(Model.Page <= 1 ? "#" : BuildUrl(Model.Page - 1))">‹</a>
+                                </li>
+
+                                <li class="page-item disabled">
+                                    <span class="page-link admin-page-link">@Model.Page</span>
+                                </li>
+
+                                <li class="page-item @(Model.Page >= totalPages ? "disabled" : "")">
+                                    <a class="page-link admin-page-link" href="@(Model.Page >= totalPages ? "#" : BuildUrl(Model.Page + 1))">›</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Sadece bu sayfaya özel küçük dark/glass ince ayarlar */
+        .admin-card-header {
+            background: rgba(255,255,255,.03);
+        }
+
+        .admin-filter {
+            padding: 14px 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(255,255,255,.03);
+        }
+
+        .admin-table-wrap {
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(255,255,255,.02);
+            overflow: hidden;
+        }
+
+        .admin-row:hover {
+            background: rgba(255,255,255,.03);
+        }
+
+        .badge-state-on {
+            border-color: rgba(16,185,129,.35);
+            background: rgba(16,185,129,.12);
+        }
+
+        .badge-state-off {
+            border-color: rgba(239,68,68,.35);
+            background: rgba(239,68,68,.10);
+        }
+
+        .admin-pagination .admin-page-link {
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.12);
+            color: rgba(255,255,255,.85);
+            border-radius: 12px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
+
+        .admin-pagination .page-item.disabled .admin-page-link {
+            opacity: .45;
+        }
+
+        .admin-pagination .admin-page-link:hover {
+            background: rgba(255,255,255,.10);
+            color: #fff;
+        }
+    </style>
+}

@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Çıkış Yapıldı";
+}
+
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg border-0 text-center"
+         style="
+            max-width: 420px;
+            width: 100%;
+            border-radius: 18px;
+            background: rgba(17,24,39,0.85);
+            backdrop-filter: blur(14px);
+            color: #fff;
+         ">
+
+        <div class="card-body p-4 p-md-5">
+
+            <!-- Icon -->
+            <div class="mx-auto mb-3"
+                 style="
+                    width:72px;
+                    height:72px;
+                    border-radius:18px;
+                    background: linear-gradient(135deg,#0d6efd,#6610f2);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    box-shadow:0 14px 30px rgba(13,110,253,.35);
+                 ">
+                <i class="bi bi-box-arrow-right fs-2 text-white"></i>
+            </div>
+
+            <!-- Title -->
+            <h1 class="h5 fw-semibold mb-2">
+                Güvenli Çıkış Yapıldı
+            </h1>
+
+            <!-- Description -->
+            <p class="text-white-50 mb-4">
+                Hesabınızdan başarıyla çıkış yaptınız.
+                Güvenliğiniz için oturumunuz sonlandırıldı.
+            </p>
+
+            <!-- Actions -->
+            <div class="d-grid gap-2">
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="btn btn-primary btn-lg rounded-3">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                    Tekrar Giriş Yap
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-outline-light rounded-3">
+                    <i class="bi bi-house me-1"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

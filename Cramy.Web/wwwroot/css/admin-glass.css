@@ -1,0 +1,256 @@
+﻿/* wwwroot/css/admin-glass.css */
+/* Admin panel UI kit: glassmorphism + 3D hover */
+
+/* 1) Token'lar: Layout ile çakışmaması için admin-prefixed */
+:root {
+    --admin-glass-bg: rgba(255,255,255,.08);
+    --admin-glass-border: rgba(255,255,255,.16);
+    --admin-glass-shadow: 0 18px 50px rgba(0,0,0,.28);
+    --admin-radius: 18px;
+    --admin-text: #e5e7eb;
+    --admin-text-muted: rgba(229,231,235,.72);
+    --admin-focus: rgba(99,102,241,.25);
+    --admin-focus-border: rgba(99,102,241,.45);
+    --admin-danger: #fca5a5;
+}
+
+/* 2) Sayfa wrapper: Background Layout'ta (.admin-bg) yönetilmeli.
+   Bu sınıf sadece metin rengi + minimum yükseklik sağlar. */
+.admin-glass-page {
+    min-height: 100vh;
+    color: var(--admin-text);
+}
+
+/* İçerik blokları */
+.glass-wrap {
+    padding: 24px 0 56px;
+}
+
+/* 3) Kart */
+.glass-card {
+    background: var(--admin-glass-bg);
+    border: 1px solid var(--admin-glass-border);
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-glass-shadow);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    overflow: hidden;
+}
+
+    /* Header / Body */
+    .glass-card .glass-card-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(255,255,255,.10);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .glass-card .glass-card-body {
+        padding: 18px 20px 20px;
+    }
+
+/* 4) Hologram pill */
+.holo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    font-size: .9rem;
+    color: #f3f4f6;
+}
+
+/* 5) Butonlar */
+.btn-glass {
+    border: 1px solid rgba(255,255,255,.18) !important;
+    background: rgba(255,255,255,.10) !important;
+    color: #f9fafb !important;
+    box-shadow: 0 14px 30px rgba(0,0,0,.25);
+    transform: translateY(0);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+
+    .btn-glass:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 45px rgba(0,0,0,.32);
+        filter: brightness(1.06);
+    }
+
+    .btn-glass:active {
+        transform: translateY(0);
+        box-shadow: 0 12px 28px rgba(0,0,0,.25);
+    }
+
+.btn-primary-glow {
+    background: linear-gradient(135deg, rgba(99,102,241,.95), rgba(34,211,238,.85)) !important;
+    border: 1px solid rgba(255,255,255,.18) !important;
+}
+
+.btn-danger-glow {
+    background: linear-gradient(135deg, rgba(239,68,68,.95), rgba(236,72,153,.85)) !important;
+    border: 1px solid rgba(255,255,255,.18) !important;
+}
+
+/* 6) Form elemanları */
+.input-glass, .select-glass, .textarea-glass {
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
+    color: #f9fafb !important;
+    border-radius: 14px !important;
+    padding: .6rem .8rem !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+    /* Placeholder okunurluğu */
+    .input-glass::placeholder,
+    .textarea-glass::placeholder {
+        color: rgba(229,231,235,.55) !important;
+    }
+
+    /* Focus ring */
+    .input-glass:focus, .select-glass:focus, .textarea-glass:focus {
+        outline: none !important;
+        box-shadow: 0 0 0 .2rem var(--admin-focus) !important;
+        border-color: var(--admin-focus-border) !important;
+    }
+
+    /* Disabled state */
+    .input-glass:disabled, .select-glass:disabled, .textarea-glass:disabled {
+        opacity: .65;
+        cursor: not-allowed;
+    }
+
+    /* Select option renkleri (özellikle Chrome/Windows için önemli) */
+    .select-glass option {
+        background: #0b1220;
+        color: #e5e7eb;
+    }
+
+/* Bootstrap form-check metni */
+.form-check-label {
+    color: var(--admin-text-muted);
+}
+
+/* 7) Tablo */
+.table-glass {
+    color: #e5e7eb;
+    margin: 0;
+}
+
+    .table-glass thead th {
+        border-bottom: 1px solid rgba(255,255,255,.12) !important;
+        color: #d1d5db;
+        font-weight: 600;
+        letter-spacing: .2px;
+        white-space: nowrap;
+    }
+
+    .table-glass td, .table-glass th {
+        border-top: 1px solid rgba(255,255,255,.08) !important;
+        vertical-align: middle;
+    }
+
+    .table-glass tbody tr {
+        transition: transform .10s ease, background .10s ease;
+    }
+
+        .table-glass tbody tr:hover {
+            background: rgba(255,255,255,.04);
+            transform: translateY(-1px);
+        }
+
+/* 8) Badge */
+.badge-soft {
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    color: #f3f4f6;
+    padding: .35rem .55rem;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* 9) Thumbnail */
+.thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    box-shadow: 0 12px 26px rgba(0,0,0,.25);
+}
+
+/* 10) Muted text */
+.small-muted {
+    color: var(--admin-text-muted);
+    font-size: .92rem;
+}
+
+/* 11) Validation: .text-danger'ı global ezme (Bootstrap kırılmasın)
+   Sadece validation hedefliyoruz. */
+.validation-summary-errors,
+.field-validation-error,
+span[data-valmsg-for] {
+    color: var(--admin-danger) !important;
+}
+
+.input-validation-error,
+select.input-validation-error,
+textarea.input-validation-error {
+    border-color: rgba(252, 165, 165, .55) !important;
+    box-shadow: 0 0 0 .2rem rgba(252, 165, 165, .18) !important;
+}
+
+/* 12) Bootstrap alert’leri glass ile uyumlu olsun (opsiyonel ama güzel durur) */
+.alert {
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.08);
+    color: #f3f4f6;
+}
+
+.alert-success {
+    border-color: rgba(16,185,129,.35);
+}
+
+.alert-warning {
+    border-color: rgba(245,158,11,.35);
+}
+
+.alert-danger {
+    border-color: rgba(239,68,68,.35);
+}
+
+.table-glass {
+    --bs-table-bg: transparent !important;
+    --bs-table-striped-bg: rgba(255,255,255,.03);
+    --bs-table-hover-bg: rgba(255,255,255,.06);
+    --bs-table-color: #e5e7eb;
+    background-color: transparent !important;
+    color: #e5e7eb !important;
+}
+
+    .table-glass thead th {
+        background: rgba(255,255,255,.06) !important;
+        color: #f9fafb !important;
+        border-bottom: 1px solid rgba(255,255,255,.14) !important;
+    }
+
+    .table-glass tbody tr {
+        background-color: transparent !important;
+    }
+
+        .table-glass tbody tr:hover {
+            background-color: rgba(255,255,255,.04) !important;
+        }
+
+    .table-glass td,
+    .table-glass th {
+        background-color: transparent !important;
+        color: #e5e7eb !important;
+    }

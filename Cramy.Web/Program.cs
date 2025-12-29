@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Globalization;
+using Cramy.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
-    options.AccessDeniedPath = "/Account/AccessDenied";
+ 
 });
 
 // Localization (tr-TR)
@@ -49,6 +50,7 @@ builder.Services.AddControllersWithViews();
 // DI
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 
@@ -70,8 +72,16 @@ app.UseAuthorization();
 
 // Routes
 app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
 
 // Seed çaðrýsý
 using (var scope = app.Services.CreateScope())

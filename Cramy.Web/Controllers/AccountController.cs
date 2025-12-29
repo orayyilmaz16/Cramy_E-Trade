@@ -100,8 +100,8 @@ namespace Cramy.Web.Controllers
         // =========================================================
         // ACCESS DENIED
         // =========================================================
-        [HttpGet]
-        public IActionResult AccessDenied() => View();
+ 
+        
 
         // =========================================================
         // PROFILE (Detail / Edit)

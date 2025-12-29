@@ -8,7 +8,6 @@ namespace Cramy.Domain.Entities
     {
         public Guid Id { get; set; }
         public string UserId { get; set; } = default!;
-        public ApplicationUser? User { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Paid;
         public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
 

@@ -24,7 +24,7 @@
                     <td>@item.ProductName</td>
                     <td>@item.Quantity</td>
                     <td>@item.UnitPrice.ToString("C")</td>
-                    <td>@(item.Quantity* item.UnitPrice).ToString("C")</td>
+                    <td>@(((decimal)item.Quantity * (decimal)item.UnitPrice).ToString("C"))</td>
                     <td>
                         <form asp-action="Kaldir" method="post">
                             <input type="hidden" name="productId" value="@item.ProductId" />
