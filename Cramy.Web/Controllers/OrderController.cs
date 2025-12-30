@@ -22,5 +22,22 @@ namespace Cramy.Web.Controllers
             var orders = _orderService.GetOrdersForUser(userId!);
             return View(orders);
         }
+
+        // GET: /Order/Details/{id}
+        public async Task<IActionResult> Details(Guid id)
+        {
+            if (id == Guid.Empty) return NotFound();
+
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrWhiteSpace(userId)) return Challenge();
+
+            // Bu metodu OrderService'e eklemen gerekir:
+            // Order + Items + Product dahil dönmeli
+            var order = await _orderService.GetOrderDetailsForUserAsync(userId, id);
+
+            if (order is null) return NotFound(); // user'a ait değilse de null döndürmeni öneririm
+
+            return View(order);
+        }
     }
 }

@@ -1,0 +1,201 @@
+﻿@using Cramy.Domain.Entities
+@model Cramy.Web.Areas.Admin.Models.AdminOrderListViewModel
+@{
+    ViewData["Title"] = "Siparişler";
+    Layout = "_AdminLayout";
+
+    var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+    var currentPage = Model.Page < 1 ? 1 : Model.Page;
+
+    string BuildUrl(int p) =>
+        Url.Action("Index", "AdminOrders", new
+        {
+            area = "Admin",
+            q = Model.Q,
+            status = Model.Status,
+            page = p,
+            pageSize = Model.PageSize
+        })!;
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card">
+
+            <div class="glass-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Sipariş Yönetimi</div>
+                    <h3 class="mt-2 mb-0">Siparişler</h3>
+                    <div class="small-muted mt-1">Toplam: @Model.TotalCount</div>
+                </div>
+            </div>
+
+            <div class="glass-card-body">
+
+                @if (TempData["ok"] is not null)
+                {
+                    <div class="alert alert-success" role="alert">@TempData["ok"]</div>
+                }
+                @if (TempData["err"] is not null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["err"]</div>
+                }
+
+                <form method="get" class="row g-3 align-items-end mb-3"
+                      asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+                    <div class="col-12 col-lg-6">
+                        <label class="form-label small-muted">Arama (UserId)</label>
+                        <input class="form-control input-glass" name="q" value="@Model.Q"
+                               placeholder="Örn: user-id..." />
+                    </div>
+
+                    <div class="col-12 col-lg-3">
+                        <label class="form-label small-muted">Durum</label>
+                        <select class="form-select select-glass" name="status">
+                            <option value="">Tümü</option>
+                            @foreach (OrderStatus s in Enum.GetValues(typeof(OrderStatus)))
+                            {
+                                <option value="@s" selected="@(Model.Status == s ? "selected" : null)">@s</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-lg-3 d-flex gap-2">
+                        <button class="btn btn-glass btn-primary-glow w-100" type="submit">Filtrele</button>
+                        <a class="btn btn-glass w-100"
+                           asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+                            Sıfırla
+                        </a>
+                    </div>
+                </form>
+
+                <div class="table-responsive" style="border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02);overflow:hidden;">
+                    <table class="table table-glass align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Sipariş</th>
+                                <th style="width:180px;">Durum</th>
+                                <th style="width:140px;">Kalem</th>
+                                <th style="width:160px;">Toplam</th>
+                                <th style="width:220px;" class="text-end">İşlemler</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model.Items is null || !Model.Items.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="py-4">
+                                        <div class="small-muted">Kayıt bulunamadı.</div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var o in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="fw-semibold">#@o.Id</div>
+                                            <div class="small-muted">UserId: @o.UserId</div>
+                                            <div class="small-muted">@o.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</div>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge-soft">@o.Status</span>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge-soft">@o.ItemCount</span>
+                                        </td>
+
+                                        <td>@o.Total.ToString("C")</td>
+
+                                        <td class="text-end">
+                                            <div class="d-inline-flex gap-2">
+                                                <a class="btn btn-sm btn-glass btn-primary-glow"
+                                                   asp-area="Admin" asp-controller="AdminOrders" asp-action="Details" asp-route-id="@o.Id">
+                                                    Denetle
+                                                </a>
+                                                <a class="btn btn-sm btn-glass btn-danger-glow"
+                                                   asp-area="Admin" asp-controller="AdminOrders" asp-action="Delete" asp-route-id="@o.Id">
+                                                    Sil
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (totalPages > 1)
+                {
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div class="small-muted">Sayfa @currentPage / @totalPages</div>
+
+                        <nav aria-label="Sayfalama">
+                            <ul class="pagination mb-0">
+                                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                    @if (currentPage == 1)
+                                    {
+                                        <span class="page-link">‹</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="@BuildUrl(currentPage - 1)">‹</a>
+                                    }
+                                </li>
+
+                                <li class="page-item active">
+                                    <span class="page-link">@currentPage</span>
+                                </li>
+
+                                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                    @if (currentPage == totalPages)
+                                    {
+                                        <span class="page-link">›</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="page-link" href="@BuildUrl(currentPage + 1)">›</a>
+                                    }
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Pagination’ı dark-glass ile uyumlu göster */
+        .pagination .page-link {
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.12);
+            color: rgba(255,255,255,.85);
+            border-radius: 12px;
+            margin: 0 6px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: rgba(99,102,241,.25);
+            border-color: rgba(99,102,241,.35);
+            color: #fff;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            opacity: .45;
+        }
+
+        .pagination .page-link:hover {
+            background: rgba(255,255,255,.10);
+            color: #fff;
+        }
+    </style>
+}

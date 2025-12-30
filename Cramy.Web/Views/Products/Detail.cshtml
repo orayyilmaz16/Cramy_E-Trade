@@ -1,0 +1,113 @@
+﻿@using Cramy.Application.DTOs
+@model ProductDto
+
+@{
+    ViewData["Title"] = Model?.Name ?? "Ürün Detayı";
+
+    string img = string.IsNullOrWhiteSpace(Model?.ImageUrl)
+        ? Url.Content("~/images/usb-cable.jpg")
+        : (Model!.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? Model.ImageUrl : Url.Content(Model.ImageUrl));
+
+    string desc = string.IsNullOrWhiteSpace(Model?.Description)
+        ? "Bu ürün için açıklama bulunmuyor."
+        : Model!.Description.Trim();
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="mb-0">@Model.Name</h2>
+            <div class="text-muted small">Ürün detaylarını inceleyip sepetine ekleyebilirsin.</div>
+        </div>
+
+        <a class="btn btn-outline-secondary"
+           asp-area="" asp-controller="Products" asp-action="Index">
+            <i class="bi bi-arrow-left"></i> Ürünlere Dön
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <!-- Görsel -->
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm border-0 overflow-hidden">
+                <div class="ratio ratio-4x3">
+                    <img src="@img" class="w-100 h-100" style="object-fit:cover;" alt="@Model.Name" />
+                </div>
+            </div>
+        </div>
+
+        <!-- İçerik -->
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                            <div class="text-muted small">Fiyat</div>
+                            <div class="fs-3 fw-bold">@Model.Price.ToString("C")</div>
+                        </div>
+
+                        <span class="badge text-bg-light border">
+                            SKU: @(string.IsNullOrWhiteSpace(Model.SKU) ? "-" : Model.SKU)
+                        </span>
+                    </div>
+
+                    <hr />
+
+                    <div class="mb-3">
+                        <div class="text-muted small mb-1">Açıklama</div>
+                        <div>@desc</div>
+                    </div>
+
+                    
+
+                    <div class="mt-auto">
+                        <div class="text-muted small mb-2">Sepete ekle</div>
+
+                        <form asp-area="" asp-controller="Products" asp-action="AddToCart" method="post"
+                              class="d-flex gap-2 align-items-center">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@Model.Id" />
+
+                            <div class="input-group" style="max-width: 210px;">
+                                <span class="input-group-text">Adet</span>
+                                <input type="number" name="quantity" value="1" min="1" max="999" class="form-control" />
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-cart-plus"></i> Sepete Ekle
+                            </button>
+                        </form>
+
+                        <div class="text-muted small mt-3">
+                            Ürün ID: <span class="font-monospace">@Model.Id</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alt bölüm: yardımcı kartlar -->
+    <div class="row g-3 mt-4">
+        <div class="col-12 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fw-semibold mb-1">Güvenli Alışveriş</div>
+                    <div class="text-muted small">
+                        Ödeme adımında stok ve fiyat doğrulaması yapılır. Sorun olursa bilgilendirilirsiniz.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fw-semibold mb-1">İade & Destek</div>
+                    <div class="text-muted small">
+                        Destek ekibimiz ile iletişime geçerek sipariş ve iade süreçlerini yönetebilirsiniz.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

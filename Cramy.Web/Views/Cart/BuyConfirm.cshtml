@@ -1,0 +1,101 @@
+﻿@model Cramy.Domain.Entities.Order
+@{
+    ViewData["Title"] = "Satın Alma Onayı";
+
+    var total = Model.Items?.Sum(i => i.Quantity * i.UnitPrice) ?? 0m;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-lg-5">
+
+                    <div class="d-flex align-items-start justify-content-between flex-wrap gap-3">
+                        <div>
+                            <div class="d-inline-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+                                    Ödeme Alındı
+                                </span>
+                            </div>
+                            <h2 class="mb-1">Siparişiniz oluşturuldu</h2>
+                            <div class="text-muted">
+                                Sipariş ID: <span class="fw-semibold">@Model.Id</span>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                Tarih: @Model.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                            </div>
+                        </div>
+
+                        <div class="text-end">
+                            <div class="text-muted small">Toplam Tutar</div>
+                            <div class="fs-3 fw-bold">@total.ToString("C")</div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <h5 class="mb-3">Sipariş Kalemleri</h5>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Ürün</th>
+                                    <th style="width:120px;">Adet</th>
+                                    <th style="width:160px;">Birim</th>
+                                    <th style="width:160px;">Tutar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    var line = item.Quantity * item.UnitPrice;
+                                    <tr>
+                                        <td>
+                                            <div class="fw-semibold">@item.Product?.Name</div>
+                                            <div class="text-muted small">ProductId: @item.ProductId</div>
+                                        </td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.UnitPrice.ToString("C")</td>
+                                        <td class="fw-semibold">@line.ToString("C")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end fw-semibold">Genel Toplam</td>
+                                    <td class="fw-semibold">@total.ToString("C")</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <a class="btn btn-primary"
+                           asp-controller="Order" asp-action="Index" asp-area="">
+                            Siparişlerime Git
+                        </a>
+
+                        <a class="btn btn-outline-secondary"
+                           asp-controller="Products" asp-action="Index" asp-area="">
+                            Alışverişe Devam Et
+                        </a>
+
+                        <a class="btn btn-outline-danger ms-auto"
+                           asp-controller="Cart" asp-action="Index" asp-area="">
+                            Sepete Dön
+                        </a>
+                    </div>
+
+                    <div class="text-muted small mt-3">
+                        Durum: <span class="fw-semibold">@Model.Status</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

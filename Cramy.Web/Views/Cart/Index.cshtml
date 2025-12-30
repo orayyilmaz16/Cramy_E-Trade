@@ -2,44 +2,152 @@
 @model CardDto
 @{
     ViewData["Title"] = "Sepetim";
+    var hasItems = Model?.Items != null && Model.Items.Any();
+    decimal grandTotal = hasItems
+        ? Model.Items.Sum(i => (decimal)i.Quantity * (decimal)i.UnitPrice)
+        : 0m;
 }
-<h2 class="mb-4">Sepetim</h2>
 
-@if (Model.Items.Any())
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Ürün</th>
-                <th>Adet</th>
-                <th>Birim Fiyat</th>
-                <th>Toplam</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.UnitPrice.ToString("C")</td>
-                    <td>@(((decimal)item.Quantity * (decimal)item.UnitPrice).ToString("C"))</td>
-                    <td>
-                        <form asp-action="Kaldir" method="post">
-                            <input type="hidden" name="productId" value="@item.ProductId" />
-                            <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="mb-0">Sepetim</h2>
+            <div class="text-muted small">Sepetindeki ürünleri kontrol edip satın alma işlemini tamamlayabilirsin.</div>
+        </div>
+
+        <a class="btn btn-outline-secondary"
+           asp-controller="Products" asp-action="Index">
+            <i class="bi bi-arrow-left"></i> Alışverişe Devam Et
+        </a>
+    </div>
+
+    @if (!hasItems)
+    {
+        <div class="alert alert-info d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <div class="fw-semibold">Sepetiniz boş.</div>
+                <div class="small">Ürünler sayfasından sepetine ürün ekleyebilirsin.</div>
+            </div>
+            <a class="btn btn-primary"
+               asp-controller="Products" asp-action="Index">
+                Ürünlere Git
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            <!-- SOL: Ürün listesi -->
+            <div class="col-12 col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white d-flex align-items-center justify-content-between">
+                        <span class="fw-semibold">Sepet Ürünleri</span>
+                        <span class="text-muted small">Kalem: @Model.Items.Count</span>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th style="width:110px;">Adet</th>
+                                        <th style="width:160px;">Birim Fiyat</th>
+                                        <th style="width:160px;">Toplam</th>
+                                        <th style="width:120px;" class="text-end">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        var lineTotal = (decimal)item.Quantity * (decimal)item.UnitPrice;
+
+                                        <tr>
+                                            <td>
+                                                <div class="fw-semibold">@item.ProductName</div>
+                                                <div class="text-muted small">Ürün ID: @item.ProductId</div>
+                                            </td>
+
+                                            <td>
+                                                <span class="badge bg-secondary-subtle text-dark">@item.Quantity</span>
+                                            </td>
+
+                                            <td>@item.UnitPrice.ToString("C")</td>
+
+                                            <td class="fw-semibold">@lineTotal.ToString("C")</td>
+
+                                            <td class="text-end">
+                                                <!-- ✅ Kaldır: CartController/Kaldir -->
+                                                <form asp-controller="Cart" asp-action="Kaldir" asp-area=""
+                                                      method="post" class="d-inline">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                        <i class="bi bi-trash"></i> Kaldır
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end fw-semibold p-3">Ara Toplam</td>
+                                        <td class="fw-semibold p-3">@grandTotal.ToString("C")</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAĞ: Özet + Satın Al -->
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white">
+                        <span class="fw-semibold">Sipariş Özeti</span>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Ara Toplam</span>
+                            <span class="fw-semibold">@grandTotal.ToString("C")</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-2">
+                            <span class="text-muted">Kargo</span>
+                            <span class="text-muted">Hesaplamada</span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-semibold">Genel Toplam</span>
+                            <span class="fw-bold fs-5">@grandTotal.ToString("C")</span>
+                        </div>
+
+                        <!-- ✅ Satın Al: CartController/SatinAl -->
+                        <form asp-controller="Cart" asp-action="SatinAl" asp-area=""
+                              method="post" class="mt-3">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-bag-check"></i> Satın Al
+                            </button>
                         </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <form asp-action="SatinAl" method="post">
-        <button type="submit" class="btn btn-primary btn-lg">Satın Al</button>
-    </form>
-}
-else
-{
-    <div class="alert alert-info">Sepetiniz boş.</div>
-}
+
+                        <div class="text-muted small mt-3">
+                            Satın alma işlemi tamamlandığında sipariş detay sayfasına yönlendirileceksin.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-3 mb-0">
+                    <div class="fw-semibold">Bilgi</div>
+                    <div class="small">Sepetteki ürünlerin stok ve fiyatı ödeme aşamasında tekrar doğrulanır.</div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

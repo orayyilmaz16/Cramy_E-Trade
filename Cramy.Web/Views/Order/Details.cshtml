@@ -1,0 +1,98 @@
+﻿@model Cramy.Domain.Entities.Order
+@{
+    ViewData["Title"] = "Sipariş Detayı";
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <div>
+            <h3 class="mb-0">Sipariş Detayı</h3>
+            <div class="text-muted small">
+                Sipariş No: <span class="fw-semibold">@Model.Id</span>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" asp-controller="Order" asp-action="Index">
+                Geri
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-12 col-md-4">
+                    <div class="text-muted small">Durum</div>
+                    <div class="fw-semibold">@Model.Status</div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="text-muted small">Tarih</div>
+                    <div class="fw-semibold">@Model.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    @{
+                        var total = Model.Items?.Sum(i => i.Quantity * i.UnitPrice) ?? 0m;
+                    }
+                    <div class="text-muted small">Toplam</div>
+                    <div class="fw-semibold">@total.ToString("C")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white d-flex align-items-center justify-content-between">
+            <span class="fw-semibold">Sipariş Kalemleri</span>
+            <span class="text-muted small">Kalem: @(Model.Items?.Count ?? 0)</span>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Ürün</th>
+                            <th style="width:120px;">Adet</th>
+                            <th style="width:160px;">Birim Fiyat</th>
+                            <th style="width:160px;">Tutar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Items is null || !Model.Items.Any())
+                        {
+                            <tr>
+                                <td colspan="4" class="p-4 text-muted">Sipariş kalemi bulunamadı.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.Items)
+                            {
+                                var lineTotal = item.Quantity * item.UnitPrice;
+
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold">@item.Product?.Name</div>
+                                        <div class="text-muted small">ProductId: @item.ProductId</div>
+                                    </td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice.ToString("C")</td>
+                                    <td class="fw-semibold">@lineTotal.ToString("C")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-semibold p-3">Genel Toplam</td>
+                            <td class="fw-semibold p-3">@total.ToString("C")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

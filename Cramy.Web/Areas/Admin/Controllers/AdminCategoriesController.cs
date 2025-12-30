@@ -4,6 +4,8 @@ using Cramy.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cramy.Web.Areas.Admin.Controllers
 {
@@ -50,36 +52,93 @@ namespace Cramy.Web.Areas.Admin.Controllers
             return View(items);
         }
 
-        // GET: /Admin/AdminCategories/Create
+        // GET
         [HttpGet]
         public IActionResult Create()
         {
             return View(new Category());
         }
 
-        // POST: /Admin/AdminCategories/Create
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category model)
         {
-            model.Name = (model.Name ?? "").Trim();
+            model.Name = (model.Name ?? string.Empty).Trim();
 
+            // Slug alanı Category'de varsa doldur.
+            // Eğer kullanıcı formdan göndermiyorsa otomatik üret.
+            model.Slug = (model.Slug ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(model.Slug))
+                model.Slug = Slugify(model.Name);
+
+            // Validation
             if (string.IsNullOrWhiteSpace(model.Name))
                 ModelState.AddModelError(nameof(model.Name), "Kategori adı zorunludur.");
 
-            var exists = await _db.Categories.AnyAsync(c => c.Name == model.Name);
-            if (exists)
+            if (string.IsNullOrWhiteSpace(model.Slug))
+                ModelState.AddModelError(nameof(model.Slug), "Slug alanı zorunludur.");
+
+            // Duplicate checks (case-insensitive)
+            var nameLower = model.Name.ToLower();
+            var slugLower = model.Slug.ToLower();
+
+            var nameExists = await _db.Categories.AnyAsync(c => c.Name.ToLower() == nameLower);
+            if (nameExists)
                 ModelState.AddModelError(nameof(model.Name), "Bu kategori zaten mevcut.");
+
+            var slugExists = await _db.Categories.AnyAsync(c => c.Slug.ToLower() == slugLower);
+            if (slugExists)
+                ModelState.AddModelError(nameof(model.Slug), "Bu slug zaten kullanılıyor.");
 
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.Id = model.Id == Guid.Empty ? Guid.NewGuid() : model.Id;
-            _db.Categories.Add(model);
-            await _db.SaveChangesAsync();
+            if (model.Id == Guid.Empty)
+                model.Id = Guid.NewGuid();
 
-            TempData["ok"] = "Kategori eklendi.";
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _db.Categories.Add(model);
+                await _db.SaveChangesAsync();
+
+                TempData["ok"] = "Kategori eklendi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "Kategori kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.");
+                return View(model);
+            }
+        }
+
+        // Türkçe karakter destekli slug üretici
+        private static string Slugify(string input)
+        {
+            input = (input ?? string.Empty).Trim().ToLowerInvariant();
+
+            // Türkçe karakter dönüşümü
+            input = input
+                .Replace("ç", "c").Replace("ğ", "g").Replace("ı", "i")
+                .Replace("ö", "o").Replace("ş", "s").Replace("ü", "u");
+
+            // Diakritik temizliği (genel)
+            var normalized = input.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
+            foreach (var ch in normalized)
+            {
+                var uc = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(ch);
+                if (uc != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(ch);
+            }
+            var cleaned = sb.ToString().Normalize(NormalizationForm.FormC);
+
+            // Alfasayısal dışını tire yap
+            cleaned = Regex.Replace(cleaned, @"[^a-z0-9]+", "-");
+            cleaned = cleaned.Trim('-');
+            cleaned = Regex.Replace(cleaned, @"-+", "-");
+
+            return cleaned;
         }
 
         // GET: /Admin/AdminCategories/Edit/{id}
@@ -88,7 +147,7 @@ namespace Cramy.Web.Areas.Admin.Controllers
         {
             if (id == Guid.Empty) return NotFound();
 
-            var entity = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            var entity = await _db.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
             if (entity is null) return NotFound();
 
             return View(entity);
@@ -101,15 +160,40 @@ namespace Cramy.Web.Areas.Admin.Controllers
         {
             if (model.Id == Guid.Empty) return NotFound();
 
-            model.Name = (model.Name ?? "").Trim();
+            model.Name = (model.Name ?? string.Empty).Trim();
+            model.Slug = (model.Slug ?? string.Empty).Trim();
 
+            // Slug boşsa otomatik üret
+            if (string.IsNullOrWhiteSpace(model.Slug))
+                model.Slug = Slugify(model.Name);
+
+            // Validation
             if (string.IsNullOrWhiteSpace(model.Name))
                 ModelState.AddModelError(nameof(model.Name), "Kategori adı zorunludur.");
 
-            // Unique kontrol (kendisi hariç)
-            var exists = await _db.Categories.AnyAsync(c => c.Name == model.Name && c.Id != model.Id);
-            if (exists)
-                ModelState.AddModelError(nameof(model.Name), "Bu kategori zaten mevcut.");
+            if (string.IsNullOrWhiteSpace(model.Slug))
+                ModelState.AddModelError(nameof(model.Slug), "Slug alanı zorunludur.");
+
+            // Unique kontroller (kendisi hariç) - case-insensitive
+            if (!string.IsNullOrWhiteSpace(model.Name))
+            {
+                var nameLower = model.Name.ToLower();
+                var nameExists = await _db.Categories
+                    .AnyAsync(c => c.Id != model.Id && c.Name.ToLower() == nameLower);
+
+                if (nameExists)
+                    ModelState.AddModelError(nameof(model.Name), "Bu kategori adı zaten mevcut.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Slug))
+            {
+                var slugLower = model.Slug.ToLower();
+                var slugExists = await _db.Categories
+                    .AnyAsync(c => c.Id != model.Id && c.Slug.ToLower() == slugLower);
+
+                if (slugExists)
+                    ModelState.AddModelError(nameof(model.Slug), "Bu slug zaten kullanılıyor.");
+            }
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -118,11 +202,21 @@ namespace Cramy.Web.Areas.Admin.Controllers
             if (entity is null) return NotFound();
 
             entity.Name = model.Name;
-            await _db.SaveChangesAsync();
+            entity.Slug = model.Slug;
 
-            TempData["ok"] = "Kategori güncellendi.";
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _db.SaveChangesAsync();
+                TempData["ok"] = "Kategori güncellendi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "Kategori güncellenirken bir hata oluştu. Lütfen tekrar deneyin.");
+                return View(model);
+            }
         }
+
 
         // GET: /Admin/AdminCategories/Delete/{id} (confirm page)
         [HttpGet]

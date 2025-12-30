@@ -3,30 +3,84 @@
 
 @{
     ViewData["Title"] = "Ürünler";
+
+    string Img(string? url) =>
+        string.IsNullOrWhiteSpace(url)
+            ? Url.Content("~/images/usb-cable.jpg")
+            : (url.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? url : Url.Content(url));
+
+    string Short(string? text, int max = 110)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return "";
+        text = text.Trim();
+        return text.Length <= max ? text : text.Substring(0, max) + "…";
+    }
 }
 
-<h2 class="mb-4">Ürünler</h2>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var product in Model)
-    {
-        <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="@(string.IsNullOrEmpty(product.ImageUrl)
-                                                  ? Url.Content("~/images/usb-cable.jpg")
-                                                  : Url.Content(product.ImageUrl))"
-                     class="card-img-top" alt="@product.Name" />
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">@product.Name</h5>
-                    <p class="card-text text-muted">@product.Description</p>
-                    <p class="fw-bold">@product.Price.ToString("C")</p>
-                    <form asp-controller="Cart" asp-action="Ekle" method="post" class="mt-auto">
-                        <input type="hidden" name="productId" value="@product.Id" />
-                        <button type="submit" class="btn btn-success w-100">
-                            <i class="bi bi-cart-plus"></i> Sepete Ekle
-                        </button>
-                    </form>
+<div class="container py-4">
+    <div class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="mb-0">Ürünler</h2>
+            <div class="text-muted small">Beğendiğiniz ürünleri sepete ekleyebilirsiniz.</div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        @foreach (var product in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 overflow-hidden">
+                    <div class="ratio ratio-4x3">
+                        <img src="@Img(product.ImageUrl)" class="w-100 h-100" style="object-fit:cover;" alt="@product.Name" />
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-start justify-content-between gap-2">
+                            <h5 class="card-title mb-1">@product.Name</h5>
+                            <span class="badge text-bg-light border">@product.Price.ToString("C")</span>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(product.Description))
+                        {
+                            <p class="card-text text-muted small mb-3">@Short(product.Description)</p>
+                        }
+                        else
+                        {
+                            <p class="card-text text-muted small mb-3">Açıklama bulunmuyor.</p>
+                        }
+
+                        <div class="mt-auto d-flex flex-column gap-2">
+                            <!-- Detay -->
+                            <a class="btn btn-outline-secondary w-100"
+                               asp-area="" asp-controller="Products" asp-action="Detail" asp-route-id="@product.Id">
+                                <i class="bi bi-search"></i> Detay
+                            </a>
+
+                            <!-- Sepete Ekle (quantity destekli) -->
+                            <form asp-area="" asp-controller="Cart" asp-action="Ekle" method="post" class="d-flex gap-2 align-items-center">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@product.Id" />
+
+                                <div class="input-group">
+                                    <span class="input-group-text">Adet</span>
+                                    <input type="number" name="quantity" value="1" min="1" max="999"
+                                           class="form-control" />
+                                </div>
+
+                                <button type="submit" class="btn btn-success" style="white-space:nowrap;">
+                                    <i class="bi bi-cart-plus"></i> Ekle
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white border-0 pt-0">
+                        <div class="text-muted small">
+                            Ürün ID: <span class="font-monospace">@product.Id.ToString("N").Substring(0, 8)</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

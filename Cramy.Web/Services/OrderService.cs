@@ -38,4 +38,15 @@ public class OrderService : IOrderService
             })
             .ToList();
     }
+    public async Task<Order?> GetOrderDetailsForUserAsync(string userId, Guid orderId)
+    {
+        if (string.IsNullOrWhiteSpace(userId) || orderId == Guid.Empty)
+            return null;
+
+        return await _context.Orders
+            .AsNoTracking()
+            .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
+    }
 }

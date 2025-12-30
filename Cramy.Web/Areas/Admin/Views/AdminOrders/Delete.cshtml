@@ -1,0 +1,62 @@
+﻿@model Cramy.Web.Areas.Admin.Models.AdminOrderDeleteViewModel
+@{
+    ViewData["Title"] = "Sipariş Sil";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card">
+
+            <div class="glass-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Sipariş Sil</div>
+                    <h3 class="mt-2 mb-0">Silme Onayı</h3>
+                    <div class="small-muted mt-1">Bu işlem geri alınamaz.</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminOrders" asp-action="Details" asp-route-id="@Model.Id">
+                        Geri
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card-body">
+                @if (TempData["err"] is not null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["err"]</div>
+                }
+
+                <div class="p-3 mb-3" style="border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);">
+                    <div class="small-muted">Silinecek sipariş</div>
+                    <div class="fw-semibold mt-1">#@Model.Id</div>
+
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                        <span class="badge-soft">UserId: @Model.UserId</span>
+                        <span class="badge-soft">Durum: @Model.Status</span>
+                        <span class="badge-soft">Kalem: @Model.ItemCount</span>
+                        <span class="badge-soft">Toplam: @Model.Total.ToString("C")</span>
+                        <span class="badge-soft">Tarih: @Model.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</span>
+                    </div>
+                </div>
+
+                <form asp-area="Admin" asp-controller="AdminOrders" asp-action="Delete"
+                      method="post" class="d-flex flex-wrap gap-2">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <button type="submit" class="btn btn-glass btn-danger-glow">
+                        Evet, Sil
+                    </button>
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminOrders" asp-action="Details" asp-route-id="@Model.Id">
+                        Vazgeç
+                    </a>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

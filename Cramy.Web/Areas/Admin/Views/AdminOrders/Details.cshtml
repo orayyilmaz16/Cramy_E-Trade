@@ -1,0 +1,140 @@
+﻿@using Cramy.Domain.Entities
+@model Cramy.Web.Areas.Admin.Models.AdminOrderDetailsViewModel
+@{
+    ViewData["Title"] = "Sipariş Detayı";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-glass-page">
+    <div class="container glass-wrap">
+        <div class="glass-card">
+
+            <div class="glass-card-header">
+                <div>
+                    <div class="holo-pill">Cramy Admin • Sipariş Denetimi</div>
+                    <h3 class="mt-2 mb-0">Sipariş #@Model.Id</h3>
+                    <div class="small-muted mt-1">UserId: @Model.UserId</div>
+                    <div class="small-muted">Tarih: @Model.CreatedAtUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+                        Geri
+                    </a>
+                    <a class="btn btn-glass btn-danger-glow"
+                       asp-area="Admin" asp-controller="AdminOrders" asp-action="Delete" asp-route-id="@Model.Id">
+                        Sil
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-card-body">
+                @if (TempData["ok"] is not null)
+                {
+                    <div class="alert alert-success" role="alert">@TempData["ok"]</div>
+                }
+                @if (TempData["err"] is not null)
+                {
+                    <div class="alert alert-danger" role="alert">@TempData["err"]</div>
+                }
+
+                <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="p-3" style="border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);">
+                            <div class="small-muted">Durum</div>
+                            <div class="d-flex align-items-center justify-content-between gap-2 mt-2">
+                                <div class="fw-semibold">
+                                    <span class="badge-soft">@Model.Status</span>
+                                </div>
+
+                                <form asp-area="Admin" asp-controller="AdminOrders" asp-action="UpdateStatus" method="post" class="d-flex gap-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <select class="form-select select-glass" name="status" style="min-width: 180px;">
+                                        @foreach (OrderStatus s in Enum.GetValues(typeof(OrderStatus)))
+                                        {
+                                            <option value="@s" selected="@(Model.Status == s ? "selected" : null)">@s</option>
+                                        }
+                                    </select>
+                                    <button class="btn btn-glass btn-primary-glow" type="submit">Güncelle</button>
+                                </form>
+                            </div>
+
+                            <hr style="border-color: rgba(255,255,255,.10); opacity:1;" />
+
+                            <div class="d-flex justify-content-between">
+                                <div class="small-muted">Kalem sayısı</div>
+                                <div class="fw-semibold">@Model.Items.Count</div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <div class="small-muted">Toplam</div>
+                                <div class="fw-semibold">@Model.Total.ToString("C")</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        <div class="p-3" style="border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);">
+                            <div class="small-muted mb-2">Denetleme Notu (opsiyonel)</div>
+                            <div class="small-muted">
+                                Bu projede Order entity’sinde admin not alanı olmadığı için not kaydı tutulmuyor.
+                                İstersen Order'a <code>AdminNote</code> alanı ekleyip burada kaydedebiliriz.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-3" style="border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.02);overflow:hidden;">
+                    <table class="table table-glass align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Ürün</th>
+                                <th style="width:140px;">Adet</th>
+                                <th style="width:160px;">Birim</th>
+                                <th style="width:160px;">Tutar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Items is null || !Model.Items.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="py-4">
+                                        <div class="small-muted">Sipariş kalemi yok.</div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var i in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="fw-semibold">@i.ProductName</div>
+                                            <div class="small-muted">ProductId: @i.ProductId</div>
+                                        </td>
+                                        <td><span class="badge-soft">@i.Quantity</span></td>
+                                        <td>@i.UnitPrice.ToString("C")</td>
+                                        <td>@i.LineTotal.ToString("C")</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <a class="btn btn-glass"
+                       asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+                        Listeye Dön
+                    </a>
+                    <a class="btn btn-glass btn-danger-glow"
+                       asp-area="Admin" asp-controller="AdminOrders" asp-action="Delete" asp-route-id="@Model.Id">
+                        Siparişi Sil
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
